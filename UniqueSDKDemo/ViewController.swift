@@ -14,15 +14,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let label: UILabel = {
-            let label = UILabel()
-            label.frame.origin = CGPoint(x: 100, y: 100)
-            label.text = HelloWorld().hello(to: "World")
-            label.sizeToFit()
-            return label
-        }()
-        
-        view.addSubview(label)        // Do any additional setup after loading the view.
+        Unique.balance.getBalance(address: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty") { result in
+            switch result {
+            case .success(let balance):
+                balance.availableBalance
+                print("balance = \(balance)")
+            case .failure(let error):
+                print("error = \(error)")
+            }
+        }
     }
 
 

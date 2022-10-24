@@ -14,6 +14,7 @@ public protocol IRequest {
     var path: String { get }
     var method: HTTPMethod { get }
     var parameters: [String: Encodable]? { get }
+    var body: Data? { get }
     var source: String? { get }
     var apiVersion: String? { get }
 
@@ -27,6 +28,10 @@ public extension IRequest {
     }
     
     var parameters: [String: Encodable]? {
+        return nil
+    }
+    
+    var body: Data? {
         return nil
     }
     

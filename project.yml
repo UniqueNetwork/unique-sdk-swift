@@ -1,26 +1,11 @@
 name: UniqueSDK
 
-############
-# Options
-############
-
 options:
   minimumXcodeGenVersion: 2.10
   groupSortPosition: top
   generateEmptyDirectories: true
   deploymentTarget: 
     iOS: "13.0"
-
-
-############
-# Packages
-############
-
-
-
-############
-# Targets
-############
 
 targets:
   UniqueSDK:
@@ -78,13 +63,6 @@ targets:
                     - UISceneConfigurationName: "Default Configuration"
                       UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
                       UISceneStoryboardFile: "Main"
-
-#            UISceneConfigurations:
-#                - UIWindowSceneSessionRoleApplication:
-#                    - UISceneConfigurationName: "Default Configuration"
-#                    UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
-#                    UISceneStoryboardFile: "Main"
-                    
                     
 #    postCompileScripts:
 #      - path: swiftlint.sh
@@ -106,18 +84,3 @@ targetTemplates:
         SWIFT_VERSION: 5.0.0
         TARGETED_DEVICE_FAMILY: 1,2
         SUPPORTS_MACCATALYST: NO
-
-
-#name: HELLO options: deploymentTarget: iOS: 13.0 createIntermediateGroups: true bundleIdPrefix: com.milkyo transitivelyLinkDependencies: true targets: HELLO: platform: iOS deploymentTarget: 13.1.3 type: application info: path: HELLO/Supporting Files/Info.plist
-#properties:
-#    CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
-#    UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
-#    UILaunchStoryboardName: LaunchScreen
-#    UIApplicationSceneManifest:
-#        UIApplicationSupportsMultipleScenes: false
-#        UISceneConfigurations:
-#            UIWindowSceneSessionRoleApplication:
-#             - UISceneConfigurationName: Default Configuration
-#             UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
-#settings: base: SWIFT_VERSION: 5.2 TARGETED_DEVICE_FAMILY: 1,2 FRAMEWORK_SEARCH_PATHS: [$(inherited), $(PROJECT_DIR)] sources: - HELLO/Sources - HELLO/Supporting Files
-#
