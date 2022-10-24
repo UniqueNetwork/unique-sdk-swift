@@ -12,8 +12,10 @@ public protocol IPrivateRequest {}
 
 public protocol IRequest {
     var path: String { get }
+    var headers: [String: String]? { get }
     var method: HTTPMethod { get }
     var parameters: [String: Encodable]? { get }
+    var body: Data? { get }
     var source: String? { get }
     var apiVersion: String? { get }
 
@@ -22,11 +24,19 @@ public protocol IRequest {
 
 public extension IRequest {
     
+    var headers: [String: String]? {
+        return nil
+    }
+    
     var method: HTTPMethod {
         return .get
     }
     
     var parameters: [String: Encodable]? {
+        return nil
+    }
+    
+    var body: Data? {
         return nil
     }
     
@@ -50,15 +60,19 @@ public extension IRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             fatalError("Unable to create URL components")
         }
-        
-        var bodyParams: Data?
+
+//        var bodyParams: Data?
+//        if let parameters = parameters {
+//            switch method {
+//            case .get:
+//                components.queryItems = buildQueryParameters(with: parameters)
+//            default: // post/patch/put/delete
+//                bodyParams = buildBodyParametres(with: parameters)
+//            }
+//        }
+        print(parameters)
         if let parameters = parameters {
-            switch method {
-            case .get:
-                components.queryItems = buildQueryParameters(with: parameters)
-            default: // post/patch/put/delete
-                bodyParams = buildBodyParametres(with: parameters)
-            }
+            components.queryItems = buildQueryParameters(with: parameters)
         }
         
         guard let requestUrl = components.url else {
@@ -69,7 +83,13 @@ public extension IRequest {
         var request = URLRequest(url: requestUrl)
         request.httpMethod = method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = bodyParams
+        request.httpBody = body
+        
+        if let headers = headers, !headers.isEmpty {
+            headers.forEach {
+                request.setValue($0, forHTTPHeaderField: $1)
+            }
+        }
     
         return request
     }
