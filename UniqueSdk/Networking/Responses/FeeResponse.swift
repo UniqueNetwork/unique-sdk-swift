@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Fee: Codable {
+public struct FeeResponse: Codable {
     public let raw: String
     public let amount: String
     public let formatted: String

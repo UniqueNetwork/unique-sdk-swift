@@ -1,5 +1,5 @@
 //
-//  BalanceTransferResponse.swift
+//  UnsignedTxPayloadResponse.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 24.10.2022.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-// MARK: - BalanceTransferResponse
-struct BalanceTransferResponse: Codable {
-    let signerPayloadJSON: SignerPayloadJSON
-    let signerPayloadRaw: SignerPayloadRaw
-    let signerPayloadHex: String
-    let fee: Fee
+// MARK: - UnsignedTxPayloadResponse
+public struct UnsignedTxPayloadResponse: Codable {
+    public let signerPayloadJSON: SignerPayloadJSON
+    public let signerPayloadRaw: SignerPayloadRaw
+    public let signerPayloadHex: String
+    public let fee: FeeResponse?
 }
 
 // MARK: - SignerPayloadJSON
-struct SignerPayloadJSON: Codable {
+public struct SignerPayloadJSON: Codable {
     let address, blockHash, blockNumber, era: String
     let genesisHash, method, nonce, specVersion: String
     let tip, transactionVersion: String
@@ -25,6 +25,6 @@ struct SignerPayloadJSON: Codable {
 }
 
 // MARK: - SignerPayloadRaw
-struct SignerPayloadRaw: Codable {
+public struct SignerPayloadRaw: Codable {
     let address, data, type: String
 }

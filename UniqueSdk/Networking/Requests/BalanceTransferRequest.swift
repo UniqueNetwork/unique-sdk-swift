@@ -23,17 +23,36 @@ struct BalanceTransferRequest: IRequest {
     
     // MARK: - IRequest
     
+    public var headers: [String : String]? {
+        return ["Seed //Bob": "Authorization"]
+    }
+    
+    public var method: HTTPMethod {
+        return .post
+    }
+    
     public var path: String {
         return "/balance/transfer"
     }
     
     public var parameters: [String: Encodable]? {
         return [
-            "use": transferParameters.use,
+            "use": transferParameters.use!.rawValue,
             "withFee": transferParameters.withFee,
             "verify": transferParameters.verify,
             "callbackUrl": transferParameters.callbackUrl,
             "nonce": transferParameters.nonce
         ]
+    }
+    
+    public var body: Data? {
+        do {
+                let jsonData = try JSONEncoder().encode(transferBody)
+                let jsonString = String(data: jsonData, encoding: .utf8)!
+            return jsonData
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }

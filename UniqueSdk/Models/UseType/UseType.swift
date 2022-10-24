@@ -7,11 +7,11 @@
 
 import Foundation
 
-public enum UseType: Codable {
-    case build
-    case buildBatch
-    case sign
-    case submit
-    case submitWatch
-    case rsult
+public enum UseType: String, Codable {
+    case build = "Build"
+    case buildBatch = "BuildBatch"
+    case sign = "Sign"
+    case submit = "Submit"
+    case submitWatch = "SubmitWatch"
+    case result = "Result"
 }

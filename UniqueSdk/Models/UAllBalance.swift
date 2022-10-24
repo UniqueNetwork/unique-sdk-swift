@@ -10,9 +10,9 @@ import Foundation
 // MARK: - Balance
 
 public struct UAllBalance: Codable {
-   public let availableBalance: UBalance
-    let lockedBalance: UBalance
-    let freeBalance: UBalance
+   public let availableBalance: UBalanceDetail
+    let lockedBalance: UBalanceDetail
+    let freeBalance: UBalanceDetail
     let address: String
 }
 
