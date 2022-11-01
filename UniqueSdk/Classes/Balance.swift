@@ -44,4 +44,11 @@ public class BalanceIO {
                                                              transferBody: transferBody)
         networkClient.send(request, completion: completion)
     }
+    
+    public func verify(verifyBody: VerifyBody, completion: @escaping (Result<VerifyResponse, NetworkRequestError>) -> Void) {
+        
+        let request: IRequest = VerifyRequest(verifyBody: verifyBody)
+        
+        networkClient.send(request, completion: completion)
+    }
 }

@@ -19,5 +19,12 @@ public enum NetworkRequestError: Error {
 }
 
 public struct ErrorModel: Codable {
-    var httpCode: Int
+    private var error: NetworkError
+}
+
+private struct NetworkError: Codable {
+    var code: String
+    var name: String
+    var message: String
+
 }
