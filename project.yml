@@ -6,6 +6,8 @@ options:
   generateEmptyDirectories: true
   deploymentTarget: 
     iOS: "13.0"
+  postGenCommand: "pod install"
+
 
 targets:
   UniqueSDK:

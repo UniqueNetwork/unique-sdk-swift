@@ -23,9 +23,9 @@ public init(transferParameters: BalanceTransferParameters, transferBody: Balance
 
 // MARK: - IRequest
 
-public var headers: [String : String]? {
-    return ["Seed //Bob": "Authorization"]
-}
+//public var headers: [String : String]? {
+//    return ["Seed //Bob": "Authorization"]
+//}
 
 public var method: HTTPMethod {
     return .post
@@ -48,8 +48,7 @@ public var parameters: [String: Encodable]? {
 public var body: Data? {
     do {
             let jsonData = try JSONEncoder().encode(transferBody)
-            let jsonString = String(data: jsonData, encoding: .utf8)!
-        print(jsonString)
+        print(jsonData.prettyPrintedJSONString)
         return jsonData
     } catch {
         print(error)

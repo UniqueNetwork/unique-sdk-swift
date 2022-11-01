@@ -95,8 +95,9 @@ public final class NetworkClient: INetworkClient {
     }
     
     private func processError(_ data: Data, httpCode: Int) -> NetworkRequestError {
+
         if var errorModel = try? decoder.decode(ErrorModel.self, from: data) {
-            errorModel.httpCode = httpCode
+            print("Error response: \(data.prettyPrintedJSONString ?? "")")
             return NetworkRequestError.backendError(model: errorModel)
         } else {
             return NetworkRequestError.unknown
