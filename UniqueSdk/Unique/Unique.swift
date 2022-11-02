@@ -8,5 +8,6 @@
 import Foundation
 
 public class Unique {
-   public static let Balance: BalanceIO = BalanceIO() 
+   public static let Balance: IBalanceIO = BalanceIO()
+    public static let Account: IAccountIO = AccountIO()
 }
