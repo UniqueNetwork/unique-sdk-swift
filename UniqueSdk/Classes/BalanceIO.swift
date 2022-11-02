@@ -7,7 +7,21 @@
 
 import Foundation
 
-public class BalanceIO {
+public protocol IBalanceIO {
+    func getBalance(address: String,
+                           completion: @escaping (Result<UAllBalance, NetworkRequestError>) -> Void)
+    func transferBuild(transferParameters: BalanceTransferParameters,
+                         transferBody: BalanceTransferBody,
+                         completion: @escaping (Result<UnsignedTxPayloadResponse, NetworkRequestError>) -> Void)
+    func transferSign(transferParameters: BalanceTransferParameters,
+                      transferBody: BalanceTransferBody,
+                      completion: @escaping (Result<SignResponse, NetworkRequestError>) -> Void)
+    func transferSubmitWatch(transferParameters: BalanceTransferParameters,
+                                  transferBody: BalanceTransferSubmitBody,
+                                  completion: @escaping (Result<SubmitResponse, NetworkRequestError>) -> Void)
+}
+
+public class BalanceIO: IBalanceIO {
         
     private let networkClient: INetworkClient = NetworkClient()
     

@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="1vl-Kb-u0L">
-                                <rect key="frame" x="156.5" y="360.5" width="101" height="175"/>
+                                <rect key="frame" x="110" y="288.5" width="194.5" height="319"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6N-TK-73I">
-                                        <rect key="frame" x="0.0" y="0.0" width="101" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="194.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Build"/>
                                         <connections>
@@ -29,7 +29,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYc-N6-uk9">
-                                        <rect key="frame" x="0.0" y="72" width="101" height="31"/>
+                                        <rect key="frame" x="0.0" y="72" width="194.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Sign (Local)"/>
                                         <connections>
@@ -37,11 +37,27 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w7l-wZ-k46">
-                                        <rect key="frame" x="0.0" y="144" width="101" height="31"/>
+                                        <rect key="frame" x="0.0" y="144" width="194.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Submit"/>
                                         <connections>
                                             <action selector="submitAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7AF-bA-CZN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Boc-7p-7aA">
+                                        <rect key="frame" x="0.0" y="216" width="194.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Create Account"/>
+                                        <connections>
+                                            <action selector="createAccountAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N2X-6R-oDc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tza-xO-iF6">
+                                        <rect key="frame" x="0.0" y="288" width="194.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Get Mnemonic by Address"/>
+                                        <connections>
+                                            <action selector="getMnemonicAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m6a-qm-3Wz"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -55,7 +71,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="GetMnemonicButton" destination="Tza-xO-iF6" id="YVQ-ER-pKw"/>
                         <outlet property="buildButton" destination="K6N-TK-73I" id="H0q-xv-ruH"/>
+                        <outlet property="createAccountButton" destination="Boc-7p-7aA" id="Juj-SD-9j2"/>
                         <outlet property="signButton" destination="QYc-N6-uk9" id="XWE-qg-1hI"/>
                         <outlet property="submitButton" destination="w7l-wZ-k46" id="s9B-jS-Gwq"/>
                     </connections>

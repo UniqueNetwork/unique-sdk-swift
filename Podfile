@@ -7,6 +7,7 @@ target 'UniqueSDK' do
 
   # Pods for UniqueSDK
 pod 'IrohaCrypto'
+pod 'KeychainAccess'
 
 end
 

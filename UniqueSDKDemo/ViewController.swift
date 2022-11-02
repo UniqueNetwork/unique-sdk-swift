@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var buildButton: UIButton!
     @IBOutlet weak var signButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var createAccountButton: UIButton!
+    @IBOutlet weak var GetMnemonicButton: UIButton!
     
     var balanceTransferSubmitBody: BalanceTransferSubmitBody?
     var signerPayloadJSON: SignerPayloadJSON?
@@ -119,6 +121,20 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    var accaount: Account?
+    
+    
+    @IBAction func createAccountAction(_ sender: Any) {
+       let accaunt = Account(name: "1", address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", mnemonic: "quality battle ghost jazz muffin divide reflect salmon fee inform thank photo")
+        self.accaount = accaunt
+    }
+    
+    @IBAction func getMnemonicAction(_ sender: Any) {
+       let mnemonic = Unique.Account.testGetAccountMnemonic(account: accaount!)
+        print(mnemonic)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
