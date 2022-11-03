@@ -28,7 +28,7 @@ s.framework = "UIKit"
 s.dependency 'IrohaCrypto'
 
 # 8
-s.source_files = "UniqueSDK/*"
+s.source_files = "UniqueSDK/**"
 
 # 9
 
