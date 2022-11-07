@@ -8,7 +8,7 @@ s.summary = "UniqueSDK allows allows developers to integrate with polkadot block
 s.requires_arc = true
 
 # 2
-s.version = "0.0.1"
+s.version = "0.0.2"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -28,7 +28,7 @@ s.framework = "UIKit"
 s.dependency 'IrohaCrypto'
 
 # 8
-s.source_files = "UniqueSDK/**"
+s.source_files = "UniqueSDK/**/*.{h,m,swift}"
 
 # 9
 
