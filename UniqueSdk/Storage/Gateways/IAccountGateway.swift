@@ -8,7 +8,7 @@
 import Foundation
 
 protocol IAccountGateway {
-    func add(_ account: Account)
-    func load() -> [Account]
-    func delete(_ account: Account)
+    func add(_ account: UNQAccount)
+    func load() -> [UNQAccount]
+    func delete(_ account: UNQAccount)
 }

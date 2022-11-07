@@ -8,6 +8,7 @@
 import UIKit
 import UniqueSDK
 import IrohaCrypto
+import LocalAuthentication
 
 
 class ViewController: UIViewController {
@@ -27,14 +28,13 @@ class ViewController: UIViewController {
     @IBAction func buildAction(_ sender: Any) {
         let buildParameters = BalanceTransferParameters(use: .build, withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
         let buildBody = BalanceTransferBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", destination: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", amount: 1)
-                
-        Unique.Balance.transferBuild(transferParameters: buildParameters, transferBody: buildBody) { result in
+        
+        Unique.Balance.transfer(account: accaount!, transferParameters: buildParameters, transferBody: buildBody) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let transaction):
-                    self.signerPayloadJSON = transaction.signerPayloadJSON
-                    self.signerPayloadRaw = transaction.signerPayloadRaw
-                    self.signerPayloadHex = transaction.signerPayloadHex
+                   print(transaction.hash) 
+                   
                     
                 case .failure(let error):
                     print(error)
@@ -42,12 +42,28 @@ class ViewController: UIViewController {
             }
         }
         
+//
+//        Unique.Balance.transferBuild(transferParameters: buildParameters, transferBody: buildBody) { result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let transaction):
+//                    self.signerPayloadJSON = transaction.signerPayloadJSON
+//                    self.signerPayloadRaw = transaction.signerPayloadRaw
+//                    self.signerPayloadHex = transaction.signerPayloadHex
+//
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//        }
+        
     }
+    
     
     @IBAction func signAction(_ sender: Any) {
-        signLocal()
+        Unique.savePasscode("123")
     }
-    
+    /*
     func signRemote() {
         let signParameters = BalanceTransferParameters(use: .sign, withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
         let signBody = BalanceTransferBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", destination: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", amount: 1)
@@ -122,16 +138,48 @@ class ViewController: UIViewController {
         
     }
     
-    var accaount: Account?
+    */
+    
+    var accaount: UNQAccount?
     
     
     @IBAction func createAccountAction(_ sender: Any) {
-       let accaunt = Account(name: "1", address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", mnemonic: "quality battle ghost jazz muffin divide reflect salmon fee inform thank photo")
+//        var context = LAContext()
+//        var error: NSError?
+//
+//        var permission = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+//
+//        if permission {
+//            let reason = "Log in with Face ID"
+//            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { [weak self] success, error in
+//                DispatchQueue.main.async {
+//
+//
+//                if success {
+//                    let viewController = UIViewController()
+//                    viewController.title = "Success"
+//                    viewController.view.backgroundColor = .blue
+//                    self?.present(viewController, animated: true)
+//                } else {
+//                    let alert = UIAlertController(title: "Ошибка", message: "Неузнаю вас", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+//                    self?.present(alert, animated: true)
+//                }
+//                }
+//            }
+//
+//        } else {
+//            let alert = UIAlertController(title: "Ошибка", message: "Нет доступа", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+//            self.present(alert, animated: true)
+//        }
+        
+       let accaunt = UNQAccount(name: "1", address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", mnemonic: "quality battle ghost jazz muffin divide reflect salmon fee inform thank photo")
         self.accaount = accaunt
     }
     
     @IBAction func getMnemonicAction(_ sender: Any) {
-       let mnemonic = Unique.Account.testGetAccountMnemonic(account: accaount!)
+       let mnemonic = Unique.UNQAccount.testGetAccountMnemonic(account: accaount!)
         print(mnemonic)
     }
     
