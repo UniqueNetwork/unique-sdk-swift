@@ -29,7 +29,7 @@ s.dependency 'IrohaCrypto'
 s.dependency 'KeychainAccess'
 
 # 8
-s.source_files = "UniqueSDK/**/*.{h,m,swift}"
+s.source_files = "UniqueSDK/**/*.{h,m,swift,plist}"
 
 # 9
 
