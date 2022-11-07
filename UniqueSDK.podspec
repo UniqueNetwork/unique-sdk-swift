@@ -26,6 +26,7 @@ s.source = { :git => "https://github.com/UniqueNetwork/unique-sdk-swift.git",
 # 7
 s.framework = "UIKit"
 s.dependency 'IrohaCrypto'
+s.dependency 'KeychainAccess'
 
 # 8
 s.source_files = "UniqueSDK/**/*.{h,m,swift}"
