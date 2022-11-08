@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PF0-L4-BmP">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -18,46 +18,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="1vl-Kb-u0L">
-                                <rect key="frame" x="110" y="288.5" width="194.5" height="319"/>
+                                <rect key="frame" x="145" y="396.5" width="124.5" height="103"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6N-TK-73I">
-                                        <rect key="frame" x="0.0" y="0.0" width="194.5" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="124.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Build"/>
                                         <connections>
                                             <action selector="buildAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tj6-p9-8R4"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYc-N6-uk9">
-                                        <rect key="frame" x="0.0" y="72" width="194.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="SavePasscode"/>
-                                        <connections>
-                                            <action selector="signAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l3t-n8-4mk"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w7l-wZ-k46">
-                                        <rect key="frame" x="0.0" y="144" width="194.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Submit"/>
-                                        <connections>
-                                            <action selector="submitAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7AF-bA-CZN"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Boc-7p-7aA">
-                                        <rect key="frame" x="0.0" y="216" width="194.5" height="31"/>
+                                        <rect key="frame" x="0.0" y="72" width="124.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Create Account"/>
                                         <connections>
                                             <action selector="createAccountAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N2X-6R-oDc"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tza-xO-iF6">
-                                        <rect key="frame" x="0.0" y="288" width="194.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Get Mnemonic by Address"/>
-                                        <connections>
-                                            <action selector="getMnemonicAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m6a-qm-3Wz"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -72,11 +48,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="5kG-gx-nQv"/>
                     <connections>
-                        <outlet property="GetMnemonicButton" destination="Tza-xO-iF6" id="YVQ-ER-pKw"/>
                         <outlet property="buildButton" destination="K6N-TK-73I" id="H0q-xv-ruH"/>
                         <outlet property="createAccountButton" destination="Boc-7p-7aA" id="Juj-SD-9j2"/>
-                        <outlet property="signButton" destination="QYc-N6-uk9" id="XWE-qg-1hI"/>
-                        <outlet property="submitButton" destination="w7l-wZ-k46" id="s9B-jS-Gwq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

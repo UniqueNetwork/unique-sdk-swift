@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum UNQAccountVerifyType {
+public enum UNQUserAuthenticationType {
     case biometric
     case password(String)
 }
