@@ -10,4 +10,7 @@ import Foundation
 public class Unique {
    public static let Balance: IBalanceIO = BalanceIO()
     public static let Account: IAccountIO = AccountIO()
+    public static func savePasscode(_ passcode: String) {
+        KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
+    }
 }

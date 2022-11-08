@@ -21,8 +21,13 @@ class KeychainService {
 
 extension KeychainService: Keychainable {
     func loadFromKeychain(key: String) -> String? {
-        let value = try? keychain.get(key)
-        return value
+        do {
+            let value = try keychain.get(key)
+            return value
+        } catch(let error) {
+            print(error)
+            return nil
+        }
     }
     
     func deleteFromKeychain(keys: [String]) {

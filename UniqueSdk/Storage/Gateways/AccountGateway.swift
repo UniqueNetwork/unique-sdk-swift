@@ -7,19 +7,19 @@
 
 import Foundation
 
-class AccountGateway: CodableStorageGateway<Account>, IAccountGateway {
+class AccountGateway: CodableStorageGateway<UNQAccount>, IAccountGateway {
     
-    func add(_ account: Account) {
+    func add(_ account: UNQAccount) {
        var accounts = getObjects()
         accounts.append(account)
         setObjects(objects: accounts)
     }
     
-    func load() -> [Account] {
+    func load() -> [UNQAccount] {
         return getObjects()
     }
     
-    func delete(_ account: Account) {
+    func delete(_ account: UNQAccount) {
         var accounts = getObjects()
         accounts.removeAll { $0.address == account.address }
         setObjects(objects: accounts)

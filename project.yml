@@ -58,6 +58,7 @@ targets:
         CFBundleLocalizations: ["ru"]
         ITSAppUsesNonExemptEncryption: false
         UIUserInterfaceStyle: "Light"
+        NSFaceIDUsageDescription: "Нужен для транзакций"
         UIApplicationSceneManifest:
             UIApplicationSupportsMultipleScenes: false
             UISceneConfigurations:

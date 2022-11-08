@@ -8,5 +8,5 @@
 import Foundation
 
 enum UserDefaultsKeys: String {
-    case account = "Unique.Account"
+    case account = "Unique.UNQAccount"
 }
