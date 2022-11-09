@@ -12,12 +12,12 @@ public protocol IBalanceIO {
                     completion: @escaping (Result<UAllBalance, NetworkRequestError>) -> Void)
     func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, transferParameters: BalanceTransferParameters,
                   transferBody: BalanceTransferBody,
-                  completion: @escaping (Result<SubmitResponse, NetworkRequestError>) -> Void)
+                  completion: @escaping (Result<SubmitResponse, Error>) -> Void)
     
 }
 
 public class BalanceIO: IBalanceIO {
-        
+    
     private let networkClient: INetworkClient = NetworkClient()
     
     public func getBalance(address: String,
@@ -28,30 +28,19 @@ public class BalanceIO: IBalanceIO {
     }
     
     func transferBuild(transferParameters: BalanceTransferParameters,
-                              transferBody: BalanceTransferBody,
-                              completion: @escaping (Result<UnsignedTxPayloadResponse, NetworkRequestError>) -> Void)
+                            transferBody: BalanceTransferBody) async throws -> UnsignedTxPayloadResponse
     {
         let request: IRequest = BalanceTransferRequest(transferParameters: transferParameters,
                                                        transferBody: transferBody)
-        networkClient.send(request, completion: completion)
-    }
-    
-    func transferSign(transferParameters: BalanceTransferParameters,
-                             transferBody: BalanceTransferBody,
-                             completion: @escaping (Result<SignResponse, NetworkRequestError>) -> Void)
-    {
-        let request: IRequest = BalanceTransferRequest(transferParameters: transferParameters,
-                                                       transferBody: transferBody)
-        networkClient.send(request, completion: completion)
+        return try await networkClient.send(request)
     }
     
     func transferSubmitWatch(transferParameters: BalanceTransferParameters,
-                                    transferBody: BalanceTransferSubmitBody,
-                                    completion: @escaping (Result<SubmitResponse, NetworkRequestError>) -> Void)
+                                  transferBody: BalanceTransferSubmitBody) async throws -> SubmitResponse
     {
         let request: IRequest = BalanceTransferSubmitRequest(transferParameters: transferParameters,
                                                              transferBody: transferBody)
-        networkClient.send(request, completion: completion)
+        return try await networkClient.send(request)
     }
     
     public func verify(verifyBody: VerifyBody, completion: @escaping (Result<VerifyResponse, NetworkRequestError>) -> Void) {
@@ -61,42 +50,30 @@ public class BalanceIO: IBalanceIO {
         networkClient.send(request, completion: completion)
     }
     
-    public func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, transferParameters: BalanceTransferParameters, transferBody: BalanceTransferBody, completion: @escaping (Result<SubmitResponse, NetworkRequestError>) -> Void) {
+    public func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, transferParameters: BalanceTransferParameters, transferBody: BalanceTransferBody, completion: @escaping (Result<SubmitResponse, Error>) -> Void) {
         
-        self.transferBuild(transferParameters: transferParameters, transferBody: transferBody) { [weak self] result in
-            if case let .success(response) = result {
-                guard let data = Data(hex: response.signerPayloadHex) else {return}
-                
-                Signer().sign(account: account, confirmationType: userAuthenticationType, data: data) { signRes in
-                    if case let .success(signature) = signRes {
-                        print("signature = \(signature)")
-                        let submitParameters = BalanceTransferParameters(use: .submitWatch, withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-                        let balanceBody = BalanceTransferSubmitBody(signerPayloadJSON: response.signerPayloadJSON, signerPayloadRaw: response.signerPayloadRaw, signerPayloadHex: response.signerPayloadHex, signature: signature)
-                        self?.transferSubmitWatch(transferParameters: submitParameters, transferBody: balanceBody, completion: { secondRes in
-                            switch secondRes {
-                            case .success(let secondResponse):
-                                completion(.success(secondResponse))
-                            case .failure(let secondError):
-                                completion(.failure(secondError))
-                            }
-                        })
-                    }
-                }
-                
-            }
-            
-            if case let .failure(error) = result {
+        Task {
+            do {
+                let response = try await transferBuild(transferParameters: transferParameters,
+                                                            transferBody: transferBody)
+                guard let data = Data(hex: response.signerPayloadHex) else { throw NSError() }
+                let signature = try await Signer().sign(account: account,
+                                                             userAuthenticationType: userAuthenticationType,
+                                                             data: data)
+                let submitParameters = BalanceTransferParameters(use: .submitWatch,
+                                                                 withFee: nil,
+                                                                 verify: nil,
+                                                                 callbackUrl: nil,
+                                                                 nonce: nil)
+                let balanceBody = BalanceTransferSubmitBody(signerPayloadJSON: response.signerPayloadJSON,
+                                                            signerPayloadRaw: response.signerPayloadRaw,
+                                                            signerPayloadHex: response.signerPayloadHex,
+                                                            signature: signature)
+                let submit = try await transferSubmitWatch(transferParameters: submitParameters, transferBody: balanceBody)
+                completion(.success(submit))
+            } catch (let error) {
                 completion(.failure(error))
             }
-
         }
-        
-        
-        //        networkClient.send(request) { [weak self] res in
-//            switch result {
-//            case .success(let suc):
-//                suc
-//            }
-//        }
     }
 }

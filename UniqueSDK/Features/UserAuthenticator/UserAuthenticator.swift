@@ -11,48 +11,35 @@ import LocalAuthentication
 
 class UserAuthenticator {
     
-    var completion: ((Result<Bool, NSError>) -> Void)?
-        
-    func auth(confirmationType: UNQUserAuthenticationType, completion: @escaping (Result<Bool, NSError>) -> Void) {
-        self.completion = completion
-        switch confirmationType {
+    func auth(userAuthenticationType: UNQUserAuthenticationType) async throws -> Bool {
+        switch userAuthenticationType {
         case .biometric:
-            confirmWithBiometric()
+            return try await confirmWithBiometric()
         case .password(let code):
-            confirmWithPassCode(code: code)
+            return try await confirmWithPassCode(code: code)
         }
     }
     
-    private func confirmWithBiometric() {
-        guard let completion = completion else { return }
+    private func confirmWithBiometric() async throws -> Bool {
         
         let context = LAContext()
         var authError: NSError?
         let reason = " "
-
-        let permission = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError)
-        guard permission else { completion(.failure(authError!)); return }
         
-        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, error in
-            
-            if success {
-                completion(.success(true))
-            } else {
-                completion(.failure(error! as NSError))
-            }
-            
-        }
+        let permission = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError)
+        guard permission else { throw authError! }
+        
+        return try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)
     }
     
-    private func confirmWithPassCode(code: String) {
-        guard let completion = completion else { return }
+    private func confirmWithPassCode(code: String) async throws -> Bool {
         
         let storedCode = KeychainService().loadFromKeychain(key: Global.VerificationKey.key)
         if storedCode == code {
-            completion(.success(true))
+            return true
         } else {
-            completion(.failure(NSError()))
+            throw NSError()
         }
-
+        
     }
 }
