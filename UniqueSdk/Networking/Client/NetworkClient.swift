@@ -11,6 +11,8 @@ public protocol INetworkClient {
     func send<ResponseType: Codable>(_ request: IRequest,
                                      accessToken: String?,
                                      completion: @escaping (Result<ResponseType, NetworkRequestError>) -> Void)
+    func send<ResponseType: Codable>(_ request: IRequest,
+                                                 accessToken: String?) async throws -> ResponseType
 }
 
 public extension INetworkClient {
@@ -18,6 +20,10 @@ public extension INetworkClient {
     func send<ResponseType: Codable>(_ request: IRequest,
                                      completion: @escaping (Result<ResponseType, NetworkRequestError>) -> Void) {
         send(request, accessToken: nil, completion: completion)
+    }
+    
+    func send<ResponseType: Codable>(_ request: IRequest) async throws -> ResponseType {
+        return try await send(request, accessToken: nil)
     }
 }
 
@@ -31,6 +37,39 @@ public final class NetworkClient: INetworkClient {
     }()
     
     public init() {}
+    
+    public func send<ResponseType: Codable>(_ request: IRequest,
+                                                 accessToken: String?) async throws -> ResponseType  {
+        if request is IPrivateRequest, accessToken == nil {
+            let error = NetworkRequestError.tokenDoesntExist
+            throw error
+        }
+        
+        let urlRequest = createURLRequest(from: request, token: accessToken)
+        let (data, response) = try await URLSessionProvider.urlSession.data(for: urlRequest)
+        guard let response = response as? HTTPURLResponse else {
+            throw NSError()
+        }
+            
+            print("Response url \(String(describing: response.url?.absoluteString))")
+            switch response.statusCode {
+            case 200..<300:
+                print()
+                if data.isEmpty,
+                   ResponseType.self is EmptyResponse.Type,
+                   let response = EmptyResponse() as? ResponseType
+                {
+                    return response
+                } else {
+                    return try await decoding(data: data, responseType: ResponseType.self)
+                }
+            case 401:
+                throw NetworkRequestError.tokenExpired(request)
+            case let code:
+                let exactError = self.processError(data, httpCode: code)
+                throw exactError
+            }
+    }
     
     public func send<ResponseType: Codable>(_ request: IRequest,
                                             accessToken: String?,
@@ -96,11 +135,34 @@ public final class NetworkClient: INetworkClient {
     
     private func processError(_ data: Data, httpCode: Int) -> NetworkRequestError {
 
-        if var errorModel = try? decoder.decode(ErrorModel.self, from: data) {
+        if let errorModel = try? decoder.decode(ErrorModel.self, from: data) {
             print("Error response: \(data.prettyPrintedJSONString ?? "")")
             return NetworkRequestError.backendError(model: errorModel)
         } else {
             return NetworkRequestError.unknown
+        }
+    }
+    
+    private func decoding<ResponseType: Decodable>(data: Data, responseType: ResponseType.Type) async throws -> ResponseType {
+        print("response: \(data.prettyPrintedJSONString ?? "")")
+        do {
+            let decoded = try decoder.decode(responseType, from: data)
+            return decoded
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Could not find key \(key) in JSON: \(context.debugDescription)")
+            throw NetworkRequestError.decodingFailed
+        } catch let DecodingError.valueNotFound(type, context) {
+            print("Could not find type \(type) in JSON: \(context.debugDescription)")
+            throw NetworkRequestError.decodingFailed
+        } catch let DecodingError.typeMismatch(type, context) {
+            print("Type mismatch for type \(type) in JSON: \(context.debugDescription), \(context.codingPath)")
+            throw NetworkRequestError.decodingFailed
+        } catch DecodingError.dataCorrupted(let context) {
+            print("Data found to be corrupted in JSON: \(context.debugDescription), \(context.codingPath)")
+            throw NetworkRequestError.decodingFailed
+        } catch let error as NSError {
+            print("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+            throw NetworkRequestError.decodingFailed
         }
     }
     
