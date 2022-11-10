@@ -9,9 +9,9 @@ import Foundation
 
 public protocol IBalanceIO {
     func getBalance(address: String,
-                    completion: @escaping (Result<UAllBalance, NetworkRequestError>) -> Void)
-    func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, transferParameters: BalanceTransferParameters,
-                  transferBody: BalanceTransferBody,
+                    completion: @escaping (Result<UNQBalance, NetworkRequestError>) -> Void)
+    func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, parameters: UNQRequestParameters,
+                  transferBody: UNQBalanceTransferBody,
                   completion: @escaping (Result<SubmitResponse, Error>) -> Void)
     
 }
@@ -21,55 +21,48 @@ public class BalanceIO: IBalanceIO {
     private let networkClient: INetworkClient = NetworkClient()
     
     public func getBalance(address: String,
-                           completion: @escaping (Result<UAllBalance, NetworkRequestError>) -> Void)
+                           completion: @escaping (Result<UNQBalance, NetworkRequestError>) -> Void)
     {
         let request: IRequest = BalanceRequest(address: address)
         networkClient.send(request, completion: completion)
     }
     
-    func transferBuild(transferParameters: BalanceTransferParameters,
-                            transferBody: BalanceTransferBody) async throws -> UnsignedTxPayloadResponse
+   private func transferBuild(parameters: UNQRequestParameters,
+                            transferBody: UNQBalanceTransferBody) async throws -> UnsignedTxPayloadResponse
     {
-        let request: IRequest = BalanceTransferRequest(transferParameters: transferParameters,
+        let request: IRequest = BalanceTransferRequest(parameters: parameters,
                                                        transferBody: transferBody)
         return try await networkClient.send(request)
     }
     
-    func transferSubmitWatch(transferParameters: BalanceTransferParameters,
-                                  transferBody: BalanceTransferSubmitBody) async throws -> SubmitResponse
+   private func transferSubmitWatch(parameters: UNQRequestParameters,
+                                  transferBody: SubmitBody) async throws -> SubmitResponse
     {
-        let request: IRequest = BalanceTransferSubmitRequest(transferParameters: transferParameters,
+        let request: IRequest = BalanceTransferSubmitRequest(parameters: parameters,
                                                              transferBody: transferBody)
         return try await networkClient.send(request)
     }
     
-    public func verify(verifyBody: VerifyBody, completion: @escaping (Result<VerifyResponse, NetworkRequestError>) -> Void) {
-        
-        let request: IRequest = VerifyRequest(verifyBody: verifyBody)
-        
-        networkClient.send(request, completion: completion)
-    }
-    
-    public func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, transferParameters: BalanceTransferParameters, transferBody: BalanceTransferBody, completion: @escaping (Result<SubmitResponse, Error>) -> Void) {
+    public func transfer(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, parameters: UNQRequestParameters, transferBody: UNQBalanceTransferBody, completion: @escaping (Result<SubmitResponse, Error>) -> Void) {
         
         Task {
             do {
-                let response = try await transferBuild(transferParameters: transferParameters,
+                let response = try await transferBuild(parameters: parameters,
                                                             transferBody: transferBody)
                 guard let data = Data(hex: response.signerPayloadHex) else { throw NSError() }
                 let signature = try await Signer().sign(account: account,
                                                              userAuthenticationType: userAuthenticationType,
                                                              data: data)
-                let submitParameters = BalanceTransferParameters(use: .submitWatch,
+                let submitParameters = UNQRequestParameters(use: .submitWatch,
                                                                  withFee: nil,
                                                                  verify: nil,
                                                                  callbackUrl: nil,
                                                                  nonce: nil)
-                let balanceBody = BalanceTransferSubmitBody(signerPayloadJSON: response.signerPayloadJSON,
+                let balanceBody = SubmitBody(signerPayloadJSON: response.signerPayloadJSON,
                                                             signerPayloadRaw: response.signerPayloadRaw,
                                                             signerPayloadHex: response.signerPayloadHex,
                                                             signature: signature)
-                let submit = try await transferSubmitWatch(transferParameters: submitParameters, transferBody: balanceBody)
+                let submit = try await transferSubmitWatch(parameters: submitParameters, transferBody: balanceBody)
                 completion(.success(submit))
             } catch (let error) {
                 completion(.failure(error))

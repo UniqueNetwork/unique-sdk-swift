@@ -11,13 +11,13 @@ struct BalanceTransferRequest: IRequest {
     
     // MARK: - Properties
     
-    private let transferParameters: BalanceTransferParameters
-    private let transferBody: BalanceTransferBody
+    private let requestParameters: UNQRequestParameters
+    private let transferBody: UNQBalanceTransferBody
     
     // MARK: - Initialization
     
-    public init(transferParameters: BalanceTransferParameters, transferBody: BalanceTransferBody) {
-        self.transferParameters = transferParameters
+    public init(parameters: UNQRequestParameters, transferBody: UNQBalanceTransferBody) {
+        self.requestParameters = parameters
         self.transferBody = transferBody
     }
     
@@ -37,11 +37,11 @@ struct BalanceTransferRequest: IRequest {
     
     public var parameters: [String: Encodable]? {
         return [
-            "use": transferParameters.use!.rawValue,
-            "withFee": transferParameters.withFee,
-            "verify": transferParameters.verify,
-            "callbackUrl": transferParameters.callbackUrl,
-            "nonce": transferParameters.nonce
+            "use": requestParameters.use.rawValue,
+            "withFee": requestParameters.withFee,
+            "verify": requestParameters.verify,
+            "callbackUrl": requestParameters.callbackUrl,
+            "nonce": requestParameters.nonce
         ]
     }
     

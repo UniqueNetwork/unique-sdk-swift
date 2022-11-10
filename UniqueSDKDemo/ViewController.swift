@@ -11,32 +11,43 @@ import IrohaCrypto
 import LocalAuthentication
 
 
+
+
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var buildButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
     @IBAction func buildAction(_ sender: Any) {
-        let buildParameters = BalanceTransferParameters(use: .build, withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        let buildBody = BalanceTransferBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", destination: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", amount: 1)
+        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
         
         guard let account = Unique.Account.loadAccounts().first else { return }
         Unique.savePasscode("123")
 
-        
-        Unique.Balance.transfer(account: account, userAuthenticationType: .biometric, transferParameters: buildParameters, transferBody: buildBody) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let transaction):
-                   print(transaction.hash) 
-                   
-                    
-                case .failure(let error):
-                    print("Поймали ошибку")
-                    print(error)
-                }
+let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
+        Unique.Collection.createCollection(account: account, userAuthenticationType: .biometric, parameters: buildParameters, body: buildBody) { res in
+            switch res {
+            case .success(let suc):
+                print(suc)
+            case .failure(let error):
+                print(error)
             }
         }
+        
+//        Unique.Balance.transfer(account: account, userAuthenticationType: .biometric, parameters: buildParameters, transferBody: buildBody) { result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let transaction):
+//                   print(transaction.hash)
+//
+//
+//                case .failure(let error):
+//                    print("Поймали ошибку")
+//                    print(error)
+//                }
+//            }
+//        }
     }
     
     
