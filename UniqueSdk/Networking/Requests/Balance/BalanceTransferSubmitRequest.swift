@@ -12,11 +12,11 @@ class BalanceTransferSubmitRequest: IRequest {
 // MARK: - Properties
 
 private let requestParameters: UNQRequestParameters
-private let transferBody: UNQSubmitBody
+private let transferBody: UNQSubmitTxBody
 
 // MARK: - Initialization
 
-public init(parameters: UNQRequestParameters, transferBody: UNQSubmitBody) {
+public init(parameters: UNQRequestParameters, transferBody: UNQSubmitTxBody) {
     self.requestParameters = parameters
     self.transferBody = transferBody
 }

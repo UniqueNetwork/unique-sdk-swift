@@ -12,11 +12,11 @@ struct CollectionCreateSubmitWatchRequest: IRequest {
     // MARK: - Properties
     
     private let requestParameters: UNQRequestParameters
-    private let requestBody: UNQSubmitBody
+    private let requestBody: UNQSubmitTxBody
     
     // MARK: - Initialization
     
-    public init(parameters: UNQRequestParameters, body: UNQSubmitBody) {
+    public init(parameters: UNQRequestParameters, body: UNQSubmitTxBody) {
         self.requestParameters = parameters
         self.requestBody = body
     }

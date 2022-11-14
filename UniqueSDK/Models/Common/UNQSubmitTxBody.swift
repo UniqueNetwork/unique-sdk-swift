@@ -1,5 +1,5 @@
 //
-//  UNQSubmitBody.swift
+//  UNQSubmitTxBody.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 24.10.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UNQSubmitBody: Codable {
+public struct UNQSubmitTxBody: Codable {
     public var signerPayloadJSON: SignerPayloadJSON
     public var signerPayloadRaw: SignerPayloadRaw
     public var signerPayloadHex: String

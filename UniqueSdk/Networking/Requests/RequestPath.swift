@@ -13,17 +13,13 @@ protocol IPath {
 
 enum RequestPath {
     
+    enum Balance: String, IPath {
+        case transfer = "/balance/transfer"
+    }
+    
     
     enum Collection: String, IPath {
         case create = "/collections"
     }
 }
 
-
-struct asd {
-    let rwe: IPath = RequestPath.Collection.create
-    
-    func asdasd() {
-        print(rwe.rawValue)
-    }
-}

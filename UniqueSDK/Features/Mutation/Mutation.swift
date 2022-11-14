@@ -52,11 +52,11 @@ public class Mutation<B: Codable> {
                                                 data: data)
         var submitParameters = parameters
         submitParameters.use = .submitWatch
-        let submitBody = UNQSubmitBody(signerPayloadJSON: buildResponse.signerPayloadJSON,
+        let submitBody = UNQSubmitTxBody(signerPayloadJSON: buildResponse.signerPayloadJSON,
                                        signerPayloadRaw: buildResponse.signerPayloadRaw,
                                        signerPayloadHex: buildResponse.signerPayloadHex,
                                        signature: signature)
-        let request: IRequest = MutationRequest<UNQSubmitBody>(parameters: submitParameters, body: submitBody, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path)
         return try await networkClient.send(request)
     }
     
@@ -72,22 +72,22 @@ public class Mutation<B: Codable> {
                                                 data: data)
         var submitParameters = parameters
         submitParameters.use = .submitWatch
-        let submitBody = UNQSubmitBody(signerPayloadJSON: body.signerPayloadJSON,
+        let submitBody = UNQSubmitTxBody(signerPayloadJSON: body.signerPayloadJSON,
                                        signerPayloadRaw: body.signerPayloadRaw,
                                        signerPayloadHex: body.signerPayloadHex,
                                        signature: signature)
-        let request: IRequest = MutationRequest<UNQSubmitBody>(parameters: submitParameters, body: submitBody, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path)
         return try await networkClient.send(request)
     }
     
     public func submitWatch(parameters: UNQRequestParameters,
-                            body: UNQSubmitBody,
+                            body: UNQSubmitTxBody,
                             account: UNQAccount,
                             userAuthenticationType: UNQUserAuthenticationType) async throws -> SubmitResponse
     {
         var submitParameters = parameters
         submitParameters.use = .submitWatch
-        let request: IRequest = MutationRequest<UNQSubmitBody>(parameters: submitParameters, body: body, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: body, path: path)
         return try await networkClient.send(request)
     }
     

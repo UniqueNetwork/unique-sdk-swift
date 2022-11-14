@@ -21,13 +21,16 @@ class ViewController: UIViewController {
     
     
     var unsignTxPayLoad: UnsignedTxPayloadResponse?
-    var submitBody: UNQSubmitBody?
+    var submitBody: UNQSubmitTxBody?
     
     @IBAction func buildAction(_ sender: Any) {
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
         
         guard let account = Unique.Account.loadAccounts().first else { return }
         Unique.savePasscode("123")
+        
+        let alert = UIAlertController(title: "asdasd", message: "asdasd", preferredStyle: .alert)
+        self.present(alert, animated: true)
 
 let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
         
@@ -35,7 +38,7 @@ let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "as
             do {
                 let result = try await Unique.Collection.creation.build(parameters: buildParameters, body: buildBody)
                 self.unsignTxPayLoad = result
-                self.submitBody = UNQSubmitBody(signerPayloadJSON: result.signerPayloadJSON, signerPayloadRaw: result.signerPayloadRaw, signerPayloadHex: result.signerPayloadHex, signature: "")
+                self.submitBody = UNQSubmitTxBody(signerPayloadJSON: result.signerPayloadJSON, signerPayloadRaw: result.signerPayloadRaw, signerPayloadHex: result.signerPayloadHex, signature: "")
                 print(result)
             } catch (let error) {
                 print(error)
@@ -88,9 +91,9 @@ let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "as
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        Unique.Account.loadAccounts().forEach {
-            Unique.Account.deleteAccount($0)
-        }
+//        Unique.Account.loadAccounts().forEach {
+//            Unique.Account.deleteAccount($0)
+//        }
   
 
     }
