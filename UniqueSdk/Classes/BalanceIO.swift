@@ -36,7 +36,7 @@ public class BalanceIO: IBalanceIO {
     }
     
    private func transferSubmitWatch(parameters: UNQRequestParameters,
-                                  transferBody: SubmitBody) async throws -> SubmitResponse
+                                  transferBody: UNQSubmitBody) async throws -> SubmitResponse
     {
         let request: IRequest = BalanceTransferSubmitRequest(parameters: parameters,
                                                              transferBody: transferBody)
@@ -58,7 +58,7 @@ public class BalanceIO: IBalanceIO {
                                                                  verify: nil,
                                                                  callbackUrl: nil,
                                                                  nonce: nil)
-                let balanceBody = SubmitBody(signerPayloadJSON: response.signerPayloadJSON,
+                let balanceBody = UNQSubmitBody(signerPayloadJSON: response.signerPayloadJSON,
                                                             signerPayloadRaw: response.signerPayloadRaw,
                                                             signerPayloadHex: response.signerPayloadHex,
                                                             signature: signature)

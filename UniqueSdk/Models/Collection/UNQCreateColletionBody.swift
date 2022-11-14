@@ -176,10 +176,10 @@ public struct AttributesSchema: Codable {
     public let name: [String: String]
     public let optional: Bool?
     public let type: String
-    public let enumValues: [String: Name]
+    public let enumValues: [String: String]
     public let isArray: Bool?
     
-    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: Name], isArray: Bool?) {
+    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: String], isArray: Bool?) {
         self.name = name
         self.optional = optional
         self.type = type
@@ -188,14 +188,15 @@ public struct AttributesSchema: Codable {
     }
 }
 
-// MARK: - Name
-public struct Name: Codable {
-    public let empty: String
-    
-    enum CodingKeys: String, CodingKey {
-        case empty = "_"
-    }
-}
+//// MARK: - Name
+//public struct LocalizedData: Codable {
+//    public let empty: String
+//    public let
+//
+//    enum CodingKeys: String, CodingKey {
+//        case empty = "_"
+//    }
+//}
 
 // MARK: - Audio
 public struct UNQAudio: Codable {

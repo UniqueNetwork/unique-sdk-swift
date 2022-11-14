@@ -8,12 +8,15 @@
 import Foundation
 
 public protocol IColletionIO {
+    var creation: Mutation<UNQCreateColletionBody> { get }
     func createCollection(account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType, parameters: UNQRequestParameters, body: UNQCreateColletionBody, completion: @escaping ((Result<SubmitResponse, Error>) -> Void))
 }
 
 public class ColletionIO: IColletionIO {
     
     let networkClient = NetworkClient()
+    
+  public var creation = Mutation<UNQCreateColletionBody>(path: RequestPath.Collection.create.rawValue)
     
    private func createCollectionBuild(parameters: UNQRequestParameters,
                                       body: UNQCreateColletionBody) async throws -> UnsignedTxPayloadResponse
@@ -24,7 +27,7 @@ public class ColletionIO: IColletionIO {
     }
     
    private func createCollectionSubmitWatch(parameters: UNQRequestParameters,
-                                            body: SubmitBody) async throws -> SubmitResponse
+                                            body: UNQSubmitBody) async throws -> SubmitResponse
     {
         let request: IRequest = CollectionCreateSubmitWatchRequest(parameters: parameters,
                                                                    body: body)
@@ -43,7 +46,7 @@ public class ColletionIO: IColletionIO {
                 
                 var submitParameters = parameters
                 submitParameters.use = .submitWatch
-                let body = SubmitBody(signerPayloadJSON: response.signerPayloadJSON,
+                let body = UNQSubmitBody(signerPayloadJSON: response.signerPayloadJSON,
                                                             signerPayloadRaw: response.signerPayloadRaw,
                                                             signerPayloadHex: response.signerPayloadHex,
                                                             signature: signature)

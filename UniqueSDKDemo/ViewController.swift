@@ -19,6 +19,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var buildButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
+    
+    var unsignTxPayLoad: UnsignedTxPayloadResponse?
+    var submitBody: UNQSubmitBody?
+    
     @IBAction func buildAction(_ sender: Any) {
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
         
@@ -26,28 +30,52 @@ class ViewController: UIViewController {
         Unique.savePasscode("123")
 
 let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
-        Unique.Collection.createCollection(account: account, userAuthenticationType: .biometric, parameters: buildParameters, body: buildBody) { res in
-            switch res {
-            case .success(let suc):
-                print(suc)
-            case .failure(let error):
+        
+        Task {
+            do {
+                let result = try await Unique.Collection.creation.build(parameters: buildParameters, body: buildBody)
+                self.unsignTxPayLoad = result
+                self.submitBody = UNQSubmitBody(signerPayloadJSON: result.signerPayloadJSON, signerPayloadRaw: result.signerPayloadRaw, signerPayloadHex: result.signerPayloadHex, signature: "")
+                print(result)
+            } catch (let error) {
+                print(error)
+            }
+        }
+    }
+    
+    @IBAction func SignAction(_ sender: Any) {
+        print(Unique.Account.loadAccounts().first)
+        guard let account = Unique.Account.loadAccounts().first else { return }
+        Unique.savePasscode("123")
+        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+//        let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
+
+        Task {
+            do {
+                let result = try await Unique.Collection.creation.sign(parameters: buildParameters, body: unsignTxPayLoad!, account: account, userAuthenticationType: .biometric)
+                self.submitBody?.signature = result.signature
+                print("result = \(result)")
+            } catch (let error) {
                 print(error)
             }
         }
         
-//        Unique.Balance.transfer(account: account, userAuthenticationType: .biometric, parameters: buildParameters, transferBody: buildBody) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let transaction):
-//                   print(transaction.hash)
-//
-//
-//                case .failure(let error):
-//                    print("Поймали ошибку")
-//                    print(error)
-//                }
-//            }
-//        }
+    }
+    
+    @IBAction func SubmitWatchAction(_ sender: Any) {
+        guard let account = Unique.Account.loadAccounts().first else { return }
+        Unique.savePasscode("123")
+        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+//        let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
+
+        Task {
+            do {
+                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: submitBody!, account: account, userAuthenticationType: .biometric)
+                print(result)
+            } catch (let error) {
+                print(error)
+            }
+        }
     }
     
     

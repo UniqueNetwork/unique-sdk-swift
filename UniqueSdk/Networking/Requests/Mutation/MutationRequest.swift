@@ -1,37 +1,39 @@
 //
-//  CollectionCreateSubmitWatchRequest.swift
+//  MutationRequest.swift
 //  UniqueSDK
 //
-//  Created by Мах Ol on 11.11.2022.
+//  Created by Мах Ol on 14.11.2022.
 //
 
 import Foundation
 
-struct CollectionCreateSubmitWatchRequest: IRequest {
+struct MutationRequest<T: Codable>: IRequest {
     
     // MARK: - Properties
     
     private let requestParameters: UNQRequestParameters
-    private let requestBody: UNQSubmitBody
+    private let requestBody: T
+    private let requestPath: String
     
     // MARK: - Initialization
     
-    public init(parameters: UNQRequestParameters, body: UNQSubmitBody) {
+    public init(parameters: UNQRequestParameters, body: T, path: String) {
         self.requestParameters = parameters
         self.requestBody = body
+        self.requestPath = path
     }
     
     // MARK: - IRequest
     
-    public var method: HTTPMethod {
+    var method: HTTPMethod {
         return .post
     }
     
-    public var path: String {
-        return "/collections"
+    var path: String {
+        return requestPath
     }
     
-    public var parameters: [String: Encodable]? {
+    var parameters: [String: Encodable]? {
         return [
             "use": requestParameters.use.rawValue,
             "withFee": requestParameters.withFee,
@@ -41,7 +43,7 @@ struct CollectionCreateSubmitWatchRequest: IRequest {
         ]
     }
     
-    public var body: Data? {
+    var body: Data? {
         do {
                 let jsonData = try JSONEncoder().encode(requestBody)
                 let jsonString = String(data: jsonData, encoding: .utf8)!

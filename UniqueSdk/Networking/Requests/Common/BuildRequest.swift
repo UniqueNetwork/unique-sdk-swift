@@ -1,5 +1,5 @@
 //
-//  CollectionCreateSubmitWatchRequest.swift
+//  BuildRequest.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 11.11.2022.
@@ -7,16 +7,14 @@
 
 import Foundation
 
-struct CollectionCreateSubmitWatchRequest: IRequest {
-    
-    // MARK: - Properties
+struct BuildRequest<T: Codable>: IRequest {
     
     private let requestParameters: UNQRequestParameters
-    private let requestBody: UNQSubmitBody
+    private let requestBody: T
     
     // MARK: - Initialization
     
-    public init(parameters: UNQRequestParameters, body: UNQSubmitBody) {
+    public init(parameters: UNQRequestParameters, body: T) {
         self.requestParameters = parameters
         self.requestBody = body
     }
@@ -51,4 +49,5 @@ struct CollectionCreateSubmitWatchRequest: IRequest {
             return nil
         }
     }
+    
 }
