@@ -11,13 +11,13 @@ class BalanceTransferSubmitRequest: IRequest {
 
 // MARK: - Properties
 
-private let transferParameters: BalanceTransferParameters
-private let transferBody: BalanceTransferSubmitBody
+private let requestParameters: UNQRequestParameters
+private let transferBody: UNQSubmitTxBody
 
 // MARK: - Initialization
 
-public init(transferParameters: BalanceTransferParameters, transferBody: BalanceTransferSubmitBody) {
-    self.transferParameters = transferParameters
+public init(parameters: UNQRequestParameters, transferBody: UNQSubmitTxBody) {
+    self.requestParameters = parameters
     self.transferBody = transferBody
 }
 
@@ -37,11 +37,11 @@ public var path: String {
 
 public var parameters: [String: Encodable]? {
     return [
-        "use": transferParameters.use!.rawValue,
-        "withFee": transferParameters.withFee,
-        "verify": transferParameters.verify,
-        "callbackUrl": transferParameters.callbackUrl,
-        "nonce": transferParameters.nonce
+        "use": requestParameters.use.rawValue,
+        "withFee": requestParameters.withFee,
+        "verify": requestParameters.verify,
+        "callbackUrl": requestParameters.callbackUrl,
+        "nonce": requestParameters.nonce
     ]
 }
 

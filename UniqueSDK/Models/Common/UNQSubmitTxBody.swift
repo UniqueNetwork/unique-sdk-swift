@@ -1,5 +1,5 @@
 //
-//  BalanceTransferSubmitBody.swift
+//  UNQSubmitTxBody.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 24.10.2022.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct BalanceTransferSubmitBody: Codable {
-    public let signerPayloadJSON: SignerPayloadJSON
-    public let signerPayloadRaw: SignerPayloadRaw
-    public let signerPayloadHex: String
-    public let signature: String
+public struct UNQSubmitTxBody: Codable {
+    public var signerPayloadJSON: SignerPayloadJSON
+    public var signerPayloadRaw: SignerPayloadRaw
+    public var signerPayloadHex: String
+    public var signature: String
     
     public init(signerPayloadJSON: SignerPayloadJSON,
                 signerPayloadRaw: SignerPayloadRaw,
