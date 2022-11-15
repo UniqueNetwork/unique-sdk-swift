@@ -19,7 +19,10 @@ enum RequestPath {
     
     
     enum Collection: String, IPath {
-        case create = "/collections"
+        case collections = "/collections"
+        case stats = "/collections/stats"
+        case limits = "/collections/limits"
+        case setLimits = "/collections/set-limits"
     }
 }
 

@@ -14,19 +14,21 @@ struct MutationRequest<T: Codable>: IRequest {
     private let requestParameters: UNQRequestParameters
     private let requestBody: T
     private let requestPath: String
+    private let requestMethod: HTTPMethod
     
     // MARK: - Initialization
     
-    public init(parameters: UNQRequestParameters, body: T, path: String) {
+    public init(parameters: UNQRequestParameters, body: T, path: String, method: HTTPMethod) {
         self.requestParameters = parameters
         self.requestBody = body
         self.requestPath = path
+        self.requestMethod = method
     }
     
     // MARK: - IRequest
     
     var method: HTTPMethod {
-        return .post
+        return requestMethod
     }
     
     var path: String {

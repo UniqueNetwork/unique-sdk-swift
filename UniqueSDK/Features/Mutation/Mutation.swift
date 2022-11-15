@@ -11,20 +11,21 @@ public class Mutation<B: Codable> {
     
     let networkClient: INetworkClient = NetworkClient()
     let path: String
-    var bos: [B] = []
+    let method: HTTPMethod
     
-    init(path: String) {
+    init(path: String, method: HTTPMethod) {
         self.path = path
+        self.method = method
     }
     
-    public func build<B: Codable>(parameters: UNQRequestParameters, body: B) async throws -> UnsignedTxPayloadResponse {
+    public func build(parameters: UNQRequestParameters, body: B) async throws -> UnsignedTxPayloadResponse {
         var buildParameters = parameters
         buildParameters.use = .build
-        let request: IRequest = MutationRequest<B>(parameters: buildParameters, body: body, path: path)
+        let request: IRequest = MutationRequest<B>(parameters: buildParameters, body: body, path: path, method: method)
         return try await networkClient.send(request)
     }
     
-    public func sign<B: Codable>(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> SignResponse {
+    public func sign(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> SignResponse {
         let buildResponse = try await build(parameters: parameters, body: body)
         guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
         let signer = Signer()
@@ -39,7 +40,7 @@ public class Mutation<B: Codable> {
         return SignResponse(signature: signature, signerPayloadJSON: body.signerPayloadJSON, fee: body.fee)
     }
     
-    public func submitWatch<B: Codable>(parameters: UNQRequestParameters,
+    public func submitWatch(parameters: UNQRequestParameters,
                                         body: B,
                                         account: UNQAccount,
                                         userAuthenticationType: UNQUserAuthenticationType) async throws -> SubmitResponse
@@ -56,7 +57,7 @@ public class Mutation<B: Codable> {
                                        signerPayloadRaw: buildResponse.signerPayloadRaw,
                                        signerPayloadHex: buildResponse.signerPayloadHex,
                                        signature: signature)
-        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path, method: method)
         return try await networkClient.send(request)
     }
     
@@ -76,7 +77,7 @@ public class Mutation<B: Codable> {
                                        signerPayloadRaw: body.signerPayloadRaw,
                                        signerPayloadHex: body.signerPayloadHex,
                                        signature: signature)
-        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path, method: method)
         return try await networkClient.send(request)
     }
     
@@ -87,7 +88,7 @@ public class Mutation<B: Codable> {
     {
         var submitParameters = parameters
         submitParameters.use = .submitWatch
-        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: body, path: path)
+        let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: body, path: path, method: method)
         return try await networkClient.send(request)
     }
     
