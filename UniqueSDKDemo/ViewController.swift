@@ -30,7 +30,11 @@ class ViewController: UIViewController {
         
         Task {
             do {
-               let res = try await Unique.Collection.get(collectionIdQuery: UNQCollectionIdQuery(at: nil, collectionId: 1773))
+                1780
+                
+                let res = try await Unique.Collection.propertyPermissions(propertyPermissionsQuery: .init(collectionId: 1782, propertyKeys: nil, at: nil))
+                
+//                let res = try await Unique.Collection.setProperties.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: "1782", properties: [UNQCollectionProperty(key: "aaaa", value: "bbbbb"), UNQCollectionProperty(key: "111111", value: "22222222")]), account: account, userAuthenticationType: .biometric)
                 print(res)
             } catch(let error) {
                 print( error )
@@ -44,7 +48,7 @@ class ViewController: UIViewController {
         Unique.savePasscode("123")
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
 
-        let body = UNQCreateColletionBody(mode: .nft, name: "asd", description: "13123", tokenPrefix: "gggggg", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
+        let body = UNQCreateColletionBody(mode: .nft, name: "asd", description: "13123", tokenPrefix: "gggggg", sponsorship: nil, limits: .init(accountTokenOwnershipLimit: 2048, sponsoredDataSize: nil, sponsoredDataRateLimit: nil, tokenLimit: nil, sponsorTransferTimeout: nil, sponsorApproveTimeout: nil, ownerCanTransfer: true, ownerCanDestroy: true, transfersEnabled: true), metaUpdatePermission: nil, permissions: nil, readOnly: false, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
         Task {
             do {
                 let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
