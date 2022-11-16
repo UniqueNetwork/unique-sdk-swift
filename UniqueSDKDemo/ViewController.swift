@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var buildButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
     
-    
     var unsignTxPayLoad: UnsignedTxPayloadResponse?
     var submitBody: UNQSubmitTxBody?
     
@@ -29,19 +28,16 @@ class ViewController: UIViewController {
         guard let account = Unique.Account.loadAccounts().first else { return }
         Unique.savePasscode("123")
         
-        let alert = UIAlertController(title: "asdasd", message: "asdasd", preferredStyle: .alert)
-        self.present(alert, animated: true)
-
-let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
-        
         Task {
             do {
-                let result = try await Unique.Collection.creation.build(parameters: buildParameters, body: buildBody)
-                self.unsignTxPayLoad = result
-                self.submitBody = UNQSubmitTxBody(signerPayloadJSON: result.signerPayloadJSON, signerPayloadRaw: result.signerPayloadRaw, signerPayloadHex: result.signerPayloadHex, signature: "")
-                print(result)
-            } catch (let error) {
-                print(error)
+                1780
+                
+                let res = try await Unique.Collection.propertyPermissions(propertyPermissionsQuery: .init(collectionId: 1782, propertyKeys: nil, at: nil))
+                
+//                let res = try await Unique.Collection.setProperties.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: "1782", properties: [UNQCollectionProperty(key: "aaaa", value: "bbbbb"), UNQCollectionProperty(key: "111111", value: "22222222")]), account: account, userAuthenticationType: .biometric)
+                print(res)
+            } catch(let error) {
+                print( error )
             }
         }
     }
@@ -51,12 +47,11 @@ let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "as
         guard let account = Unique.Account.loadAccounts().first else { return }
         Unique.savePasscode("123")
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-//        let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
 
+        let body = UNQCreateColletionBody(mode: .nft, name: "asd", description: "13123", tokenPrefix: "gggggg", sponsorship: nil, limits: .init(accountTokenOwnershipLimit: 2048, sponsoredDataSize: nil, sponsoredDataRateLimit: nil, tokenLimit: nil, sponsorTransferTimeout: nil, sponsorApproveTimeout: nil, ownerCanTransfer: true, ownerCanDestroy: true, transfersEnabled: true), metaUpdatePermission: nil, permissions: nil, readOnly: false, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
         Task {
             do {
-                let result = try await Unique.Collection.creation.sign(parameters: buildParameters, body: unsignTxPayLoad!, account: account, userAuthenticationType: .biometric)
-                self.submitBody?.signature = result.signature
+                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
                 print("result = \(result)")
             } catch (let error) {
                 print(error)
@@ -66,14 +61,19 @@ let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "as
     }
     
     @IBAction func SubmitWatchAction(_ sender: Any) {
+     
+        destroyCollection()
+        
+    }
+    
+    func destroyCollection() {
         guard let account = Unique.Account.loadAccounts().first else { return }
-        Unique.savePasscode("123")
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-//        let buildBody = UNQCreateColletionBody(mode: nil, name: "test", description: "asdasd", tokenPrefix: "asdasd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil)
 
+        let params = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+        let body = UNQDestroyCollectionBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 1728)
         Task {
             do {
-                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: submitBody!, account: account, userAuthenticationType: .biometric)
+                let result = try await Unique.Collection.destroy.submitWatch(parameters: params, body: body, account: account, userAuthenticationType: .biometric)
                 print(result)
             } catch (let error) {
                 print(error)

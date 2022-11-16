@@ -17,7 +17,7 @@ public class BalanceIO: IBalanceIO {
     
     private let networkClient: INetworkClient = NetworkClient()
     
-    public var transfer = Mutation<UNQBalanceTransferBody>(path: RequestPath.Balance.transfer.rawValue)
+    public var transfer = Mutation<UNQBalanceTransferBody>(path: RequestPath.Balance.transfer.rawValue, method: .post)
 
     public func getBalance(address: String,
                            completion: @escaping (Result<UNQBalance, NetworkRequestError>) -> Void)

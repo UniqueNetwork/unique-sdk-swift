@@ -26,7 +26,7 @@ public struct UNQCreateColletionBody: Codable {
     public let permissions: UNQCollectionPermissions?
     public let readOnly: Bool?
     public let address: String
-    public let schema: Schema?
+    public let schema: UNQCollectionSchemaToCreate?
     public let properties: [UNQCollectionProperty]?
     public let tokenPropertyPermissions: [UNQPropertyKeyPermission]?
     
@@ -40,7 +40,7 @@ public struct UNQCreateColletionBody: Codable {
                 permissions: UNQCollectionPermissions?,
                 readOnly: Bool?,
                 address: String,
-                schema: Schema?,
+                schema: UNQCollectionSchemaToCreate?,
                 properties: [UNQCollectionProperty]?,
                 tokenPropertyPermissions: [UNQPropertyKeyPermission]?)
     {
@@ -57,40 +57,6 @@ public struct UNQCreateColletionBody: Codable {
         self.schema = schema
         self.properties = properties
         self.tokenPropertyPermissions = tokenPropertyPermissions
-    }
-}
-
-// MARK: - Limits
-public struct UNQCollectionLimits: Codable {
-    public let accountTokenOwnershipLimit: Int?
-    public let sponsoredDataSize: Int?
-    public let sponsoredDataRateLimit: Int?
-    public let tokenLimit: Int?
-    public let sponsorTransferTimeout: Int?
-    public let sponsorApproveTimeout: Int?
-    public let ownerCanTransfer: Bool?
-    public let ownerCanDestroy: Bool?
-    public let transfersEnabled: Bool?
-    
-    public init(accountTokenOwnershipLimit: Int?,
-                sponsoredDataSize: Int?,
-                sponsoredDataRateLimit: Int?,
-                tokenLimit: Int?,
-                sponsorTransferTimeout: Int?,
-                sponsorApproveTimeout: Int?,
-                ownerCanTransfer: Bool?,
-                ownerCanDestroy: Bool?,
-                transfersEnabled: Bool?)
-    {
-        self.accountTokenOwnershipLimit = accountTokenOwnershipLimit
-        self.sponsoredDataSize = sponsoredDataSize
-        self.sponsoredDataRateLimit = sponsoredDataRateLimit
-        self.tokenLimit = tokenLimit
-        self.sponsorTransferTimeout = sponsorTransferTimeout
-        self.sponsorApproveTimeout = sponsorApproveTimeout
-        self.ownerCanTransfer = ownerCanTransfer
-        self.ownerCanDestroy = ownerCanDestroy
-        self.transfersEnabled = transfersEnabled
     }
 }
 
@@ -132,12 +98,12 @@ public struct UNQCollectionProperty: Codable {
 }
 
 // MARK: - Schema
-public struct Schema: Codable {
-    public let attributesSchema: [String: AttributesSchema]
+public struct UNQCollectionSchemaToCreate: Codable {
+    public let attributesSchema: [String: UNQAttributeSchema]
     public let attributesSchemaVersion: String?
     public let coverPicture: UNQCoverPicture
     public let image: UNQImage
-    public let schemaName: UNQCollectionSchemaName
+    public let schemaName: UNQSchemaName
     public let schemaVersion: String?
     public let coverPicturePreview: UNQCoverPicture?
     public let imagePreview: UNQImagePreview?
@@ -145,11 +111,11 @@ public struct Schema: Codable {
     public let spatialObject: UNQSpatialObject?
     public let video: UNQVideo?
     
-    public init(attributesSchema: [String: AttributesSchema],
+    public init(attributesSchema: [String: UNQAttributeSchema],
                 attributesSchemaVersion: String?,
                 coverPicture: UNQCoverPicture,
                 image: UNQImage,
-                schemaName: UNQCollectionSchemaName,
+                schemaName: UNQSchemaName,
                 schemaVersion: String?,
                 coverPicturePreview: UNQCoverPicture?,
                 imagePreview: UNQImagePreview?,
@@ -172,7 +138,7 @@ public struct Schema: Codable {
 }
 
 // MARK: - AttributesSchema
-public struct AttributesSchema: Codable {
+public struct UNQAttributeSchema: Codable {
     public let name: [String: String]
     public let optional: Bool?
     public let type: String
@@ -188,23 +154,13 @@ public struct AttributesSchema: Codable {
     }
 }
 
-//// MARK: - Name
-//public struct LocalizedData: Codable {
-//    public let empty: String
-//    public let
-//
-//    enum CodingKeys: String, CodingKey {
-//        case empty = "_"
-//    }
-//}
-
 // MARK: - Audio
 public struct UNQAudio: Codable {
     public let urlTemplate: String?
     public let format: String
-    public let isLossless: Bool
+    public let isLossless: Bool?
     
-    public init(urlTemplate: String?, format: String, isLossless: Bool) {
+    public init(urlTemplate: String?, format: String, isLossless: Bool?) {
         self.urlTemplate = urlTemplate
         self.format = format
         self.isLossless = isLossless

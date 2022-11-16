@@ -8,7 +8,7 @@
 import Foundation
 
 public enum UNQColletionMode: String, Codable {
-    case nft = "Nft"
+    case nft = "NFT"
     case fungible = "Fungible"
     case reFungible = "ReFungible"
 }

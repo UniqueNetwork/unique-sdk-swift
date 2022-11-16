@@ -84,7 +84,7 @@ public extension IRequest {
         request.httpMethod = method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
-        
+        print("requestBody = \(body?.prettyPrintedJSONString)")
         if let headers = headers, !headers.isEmpty {
             headers.forEach {
                 request.setValue($0, forHTTPHeaderField: $1)
