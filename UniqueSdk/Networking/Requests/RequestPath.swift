@@ -39,5 +39,25 @@ enum RequestPath {
         case confirmSponsorship = "/collections/sponsorship/confirm"
         case totalSupply = "/collections/total-supply"
     }
+    
+    enum Token: String, IPath {
+        case tokens = "/tokens"
+        case multiple = "/tokens/create-multiple"
+        case transfer = "/tokens/transfer"
+        case nest = "/tokens/nest"
+        case unnest = "/tokens/unnest"
+        case children = "/tokens/children"
+        case parent = "/tokens/parent"
+        case owner = "/tokens/owner"
+        case topmost = "/tokens/topmost-owner"
+        case isBundle = "/tokens/is-bundle"
+        case getBundle = "/tokens/get-bundle"
+        case properties = "/tokens/properties"
+        case accountTokens = "/tokens/account-tokens"
+        case exist = "/tokens/exist"
+        case approve = "/tokens/approve"
+        case allowance = "/tokens/allowance"
+        case balance = "/tokens/balance"
+    }
 }
 

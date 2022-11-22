@@ -9,6 +9,6 @@ import Foundation
 
 public struct UNQEffectiveCollectionLimitsResponse: Codable {
     public let limits: UNQCollectionLimits?
-    public let collectionID: Int?
+    public let collectionId: Int?
 }
 
