@@ -38,17 +38,17 @@ public struct UNQCollectionSchemaDecoded: Codable {
     public let attributesSchemaVersion: String?
     public let collectionId: Int
     public let coverPicture: UNQCoverPicture
-    public let image: UNQImage
+    public let image: UNQCollectionSchemaImage
     public let schemaName: UNQSchemaName
     public let schemaVersion: String
     public let oldProperties: UNQOldProperties
     public let coverPicturePreview: UNQCoverPicture?
     public let imagePreview: UNQImagePreview?
-    public let audio: UNQAudio?
+    public let audio: UNQCollectionSchemaAudio?
     public let spatialObject: UNQSpatialObject?
-    public let video: UNQVideo?
+    public let video: UNQCollectionSchemaVideo?
 
-    public init(attributesSchema: [String: UNQAttributeSchema]?, attributesSchemaVersion: String?, collectionId: Int, coverPicture: UNQCoverPicture, image: UNQImage, schemaName: UNQSchemaName, schemaVersion: String, oldProperties: UNQOldProperties, coverPicturePreview: UNQCoverPicture, imagePreview: UNQImagePreview?, audio: UNQAudio?, spatialObject: UNQSpatialObject?, video: UNQVideo?) {
+    public init(attributesSchema: [String: UNQAttributeSchema]?, attributesSchemaVersion: String?, collectionId: Int, coverPicture: UNQCoverPicture, image: UNQCollectionSchemaImage, schemaName: UNQSchemaName, schemaVersion: String, oldProperties: UNQOldProperties, coverPicturePreview: UNQCoverPicture, imagePreview: UNQImagePreview?, audio: UNQCollectionSchemaAudio?, spatialObject: UNQSpatialObject?, video: UNQCollectionSchemaVideo?) {
         self.attributesSchema = attributesSchema
         self.attributesSchemaVersion = attributesSchemaVersion
         self.collectionId = collectionId

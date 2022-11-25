@@ -102,26 +102,26 @@ public struct UNQCollectionSchemaToCreate: Codable {
     public let attributesSchema: [String: UNQAttributeSchema]
     public let attributesSchemaVersion: String?
     public let coverPicture: UNQCoverPicture
-    public let image: UNQImage
+    public let image: UNQCollectionSchemaImage
     public let schemaName: UNQSchemaName
     public let schemaVersion: String?
     public let coverPicturePreview: UNQCoverPicture?
     public let imagePreview: UNQImagePreview?
-    public let audio: UNQAudio?
+    public let audio: UNQCollectionSchemaAudio?
     public let spatialObject: UNQSpatialObject?
-    public let video: UNQVideo?
+    public let video: UNQCollectionSchemaVideo?
     
     public init(attributesSchema: [String: UNQAttributeSchema],
                 attributesSchemaVersion: String?,
                 coverPicture: UNQCoverPicture,
-                image: UNQImage,
+                image: UNQCollectionSchemaImage,
                 schemaName: UNQSchemaName,
                 schemaVersion: String?,
                 coverPicturePreview: UNQCoverPicture?,
                 imagePreview: UNQImagePreview?,
-                audio: UNQAudio?,
+                audio: UNQCollectionSchemaAudio?,
                 spatialObject: UNQSpatialObject?,
-                video: UNQVideo?)
+                video: UNQCollectionSchemaVideo?)
     {
         self.attributesSchema = attributesSchema
         self.attributesSchemaVersion = attributesSchemaVersion
@@ -142,10 +142,10 @@ public struct UNQAttributeSchema: Codable {
     public let name: [String: String]
     public let optional: Bool?
     public let type: String
-    public let enumValues: [String: String]
+    public let enumValues: [String: JSONAny]
     public let isArray: Bool?
     
-    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: String], isArray: Bool?) {
+    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: JSONAny], isArray: Bool?) {
         self.name = name
         self.optional = optional
         self.type = type
@@ -155,7 +155,7 @@ public struct UNQAttributeSchema: Codable {
 }
 
 // MARK: - Audio
-public struct UNQAudio: Codable {
+public struct UNQCollectionSchemaAudio: Codable {
     public let urlTemplate: String?
     public let format: String
     public let isLossless: Bool?
@@ -183,7 +183,7 @@ public struct UNQCoverPicture: Codable {
 }
 
 // MARK: - Image
-public struct UNQImage: Codable {
+public struct UNQCollectionSchemaImage: Codable {
     public let urlTemplate: String
     
     public init(urlTemplate: String) {
@@ -191,7 +191,7 @@ public struct UNQImage: Codable {
     }
 }
 
-public struct UNQVideo: Codable {
+public struct UNQCollectionSchemaVideo: Codable {
     public let urlTemplate: String
     
     public init(urlTemplate: String) {
