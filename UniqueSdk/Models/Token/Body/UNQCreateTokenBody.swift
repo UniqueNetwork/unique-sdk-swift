@@ -8,16 +8,18 @@
 import Foundation
 
 public struct UNQCreateTokenBody: Codable {
+    /// владелец коллекции
     public let owner: String
+    ///вкладываемая дата
     public let data: UNQTokenToCreateDto?
-    public let property: UNQTokenProperty?
+    public let properties: UNQTokenProperty?
     public let address: String
     public let collectionId: Int
     
-    public init(owner: String, data: UNQTokenToCreateDto?, property: UNQTokenProperty?, address: String, collectionId: Int) {
+    public init(owner: String, data: UNQTokenToCreateDto?, properties: UNQTokenProperty?, address: String, collectionId: Int) {
         self.owner = owner
         self.data = data
-        self.property = property
+        self.properties = properties
         self.address = address
         self.collectionId = collectionId
     }
@@ -35,7 +37,7 @@ public struct UNQTokenToCreateDto: Codable {
     public let spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?
     public let video: UNQEncodedInfixOrUrlOrCidAndHash?
     
-    public init(image: UNQEncodedInfixOrUrlOrCidAndHash, attributes: [String: JSONAny]?, encodedAttributes: [String: JSONAny]?, name: [String: String]?, audio: UNQEncodedInfixOrUrlOrCidAndHash?, description: [String: String], imagePreview: UNQEncodedInfixOrUrlOrCidAndHash?, spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?, video: UNQEncodedInfixOrUrlOrCidAndHash?)
+    public init(image: UNQEncodedInfixOrUrlOrCidAndHash, attributes: [String: JSONAny]?, encodedAttributes: [String: JSONAny]?, name: [String: String]?, audio: UNQEncodedInfixOrUrlOrCidAndHash?, description: [String: String]?, imagePreview: UNQEncodedInfixOrUrlOrCidAndHash?, spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?, video: UNQEncodedInfixOrUrlOrCidAndHash?)
     {
         self.image = image
         self.attributes = attributes

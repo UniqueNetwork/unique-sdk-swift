@@ -76,7 +76,7 @@ public class JSONAny: Codable {
         if let value = try? container.decode(Bool.self) {
             return value
         }
-        if let value = try? container.decode(Int64.self) {
+        if let value = try? container.decode(Int.self) {
             return value
         }
         if let value = try? container.decode(Double.self) {
@@ -95,7 +95,7 @@ public class JSONAny: Codable {
         if let value = try? container.decode(Bool.self) {
             return value
         }
-        if let value = try? container.decode(Int64.self) {
+        if let value = try? container.decode(Int.self) {
             return value
         }
         if let value = try? container.decode(Double.self) {
@@ -122,7 +122,7 @@ public class JSONAny: Codable {
         if let value = try? container.decode(Bool.self, forKey: key) {
             return value
         }
-        if let value = try? container.decode(Int64.self, forKey: key) {
+        if let value = try? container.decode(Int.self, forKey: key) {
             return value
         }
         if let value = try? container.decode(Double.self, forKey: key) {
@@ -167,7 +167,7 @@ public class JSONAny: Codable {
         for value in array {
             if let value = value as? Bool {
                 try container.encode(value)
-            } else if let value = value as? Int64 {
+            } else if let value = value as? Int {
                 try container.encode(value)
             } else if let value = value as? Double {
                 try container.encode(value)
@@ -192,7 +192,7 @@ public class JSONAny: Codable {
             let key = JSONCodingKey(stringValue: key)!
             if let value = value as? Bool {
                 try container.encode(value, forKey: key)
-            } else if let value = value as? Int64 {
+            } else if let value = value as? Int {
                 try container.encode(value, forKey: key)
             } else if let value = value as? Double {
                 try container.encode(value, forKey: key)
@@ -215,7 +215,7 @@ public class JSONAny: Codable {
     static func encode(to container: inout SingleValueEncodingContainer, value: Any) throws {
         if let value = value as? Bool {
             try container.encode(value)
-        } else if let value = value as? Int64 {
+        } else if let value = value as? Int {
             try container.encode(value)
         } else if let value = value as? Double {
             try container.encode(value)

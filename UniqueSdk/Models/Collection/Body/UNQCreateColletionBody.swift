@@ -142,10 +142,10 @@ public struct UNQAttributeSchema: Codable {
     public let name: [String: String]
     public let optional: Bool?
     public let type: String
-    public let enumValues: [String: String]
+    public let enumValues: [String: JSONAny]
     public let isArray: Bool?
     
-    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: String], isArray: Bool?) {
+    public init(name: [String: String], optional: Bool?, type: String, enumValues: [String: JSONAny], isArray: Bool?) {
         self.name = name
         self.optional = optional
         self.type = type
