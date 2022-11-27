@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
 
     
-    var unsignTxPayLoad: UnsignedTxPayloadResponse?
+    var unsignTxPayLoad: UNQUnsignedTxPayloadResponse?
     var submitBody: UNQSubmitTxBody?
     var timer: Timer = Timer()
     var myHash: String = ""

@@ -16,7 +16,7 @@ public struct UNQExtrinsicResultResponse: Codable {
     public let error: JSONAny?
     public let events: [UNQExtrinsicResultEvent]?
     public let parsed: JSONAny?
-    public let fee: FeeResponse?
+    public let fee: UNQFeeResponse?
     public let callbackUrl: String?
     public let useMethod: Bool?
 }

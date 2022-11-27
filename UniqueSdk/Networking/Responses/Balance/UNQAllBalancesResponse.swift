@@ -9,16 +9,16 @@ import Foundation
 
 // MARK: - Balance
 
-public struct UNQBalance: Codable {
-    public let availableBalance: UNQBalanceDetail
-    public let lockedBalance: UNQBalanceDetail
-    public let freeBalance: UNQBalanceDetail
+public struct UNQAllBalancesResponse: Codable {
+    public let availableBalance: UNQBalanceResponse
+    public let lockedBalance: UNQBalanceResponse
+    public let freeBalance: UNQBalanceResponse
     public let address: String
 }
 
 // MARK: - BalanceDetail
 
-public struct UNQBalanceDetail: Codable {
+public struct UNQBalanceResponse: Codable {
     public let raw: String
     public let amount: String
     public let unit: String
