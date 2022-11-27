@@ -18,22 +18,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="1vl-Kb-u0L">
-                                <rect key="frame" x="145" y="396.5" width="124.5" height="103"/>
+                                <rect key="frame" x="141" y="360.5" width="132" height="175"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6N-TK-73I">
-                                        <rect key="frame" x="0.0" y="0.0" width="124.5" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kqy-QY-q5g">
+                                        <rect key="frame" x="0.0" y="0.0" width="132" height="31"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Build"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="CreateCollection"/>
                                         <connections>
-                                            <action selector="buildAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tj6-p9-8R4"/>
+                                            <action selector="createCollectionAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="skK-VS-8uF"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Boc-7p-7aA">
-                                        <rect key="frame" x="0.0" y="72" width="124.5" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pB-hU-K9g">
+                                        <rect key="frame" x="0.0" y="72" width="132" height="31"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Create Account"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="ManageToken"/>
                                         <connections>
-                                            <action selector="createAccountAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N2X-6R-oDc"/>
+                                            <action selector="manageTokenAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FJz-dd-xGw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZh-M6-zao">
+                                        <rect key="frame" x="0.0" y="144" width="132" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="GetResult"/>
+                                        <connections>
+                                            <action selector="getResultAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Uu-3l-GIa"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -47,10 +55,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5kG-gx-nQv"/>
-                    <connections>
-                        <outlet property="buildButton" destination="K6N-TK-73I" id="H0q-xv-ruH"/>
-                        <outlet property="createAccountButton" destination="Boc-7p-7aA" id="Juj-SD-9j2"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
