@@ -59,5 +59,15 @@ enum RequestPath {
         case allowance = "/tokens/allowance"
         case balance = "/tokens/balance"
     }
+    
+    enum Extrinsic: String, IPath {
+        case extrinsic = "/extrinsic"
+        case build = "/extrinsic/build"
+        case sign = "/extrinsic/sign"
+        case verifySign = "/extrinsic/verify-sign"
+        case submit = "/extrinsic/submit"
+        case calculateFee = "/extrinsic/calculate-fee"
+        case status = "/extrinsic/status"
+    }
 }
 

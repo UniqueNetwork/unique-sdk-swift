@@ -1,13 +1,13 @@
 //
-//  BalanceRequest.swift
+//  GetBalanceRequest.swift
 //  UniqueSDK
 //
-//  Created by Мах Ol on 21.10.2022.
+//  Created by Мах Ol on 25.11.2022.
 //
 
 import Foundation
 
-struct BalanceRequest: IRequest {
+struct GetBalanceRequest: IRequest {
     
     // MARK: - Properties
     
@@ -21,13 +21,17 @@ struct BalanceRequest: IRequest {
     
     // MARK: - IRequest
     
-    public var path: String {
+    var method: HTTPMethod {
+        return .get
+    }
+    
+    var path: String {
         return "/balance"
     }
     
-    public var parameters: [String: Encodable]? {
-        return [
-            "address": address,
-        ]
+    var parameters: [String: Encodable]? {
+       return [
+        "address": address
+       ]
     }
 }

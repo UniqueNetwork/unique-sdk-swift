@@ -9,8 +9,7 @@ import Foundation
 
 public protocol IBalanceIO {
     var transfer: Mutation<UNQBalanceTransferBody> { get }
-    func getBalance(address: String,
-                    completion: @escaping (Result<UNQBalance, NetworkRequestError>) -> Void)
+    func get(address: String) async throws -> UNQAllBalancesResponse
 }
 
 public class BalanceIO: IBalanceIO {
@@ -19,10 +18,8 @@ public class BalanceIO: IBalanceIO {
     
     public var transfer = Mutation<UNQBalanceTransferBody>(path: RequestPath.Balance.transfer.rawValue, method: .post)
 
-    public func getBalance(address: String,
-                           completion: @escaping (Result<UNQBalance, NetworkRequestError>) -> Void)
-    {
-        let request: IRequest = BalanceRequest(address: address)
-        networkClient.send(request, completion: completion)
+    public func get(address: String) async throws -> UNQAllBalancesResponse {
+        let request = GetBalanceRequest(address: address)
+        return try await networkClient.send(request)
     }
 }

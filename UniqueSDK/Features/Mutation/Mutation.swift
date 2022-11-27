@@ -18,32 +18,32 @@ public class Mutation<B: Codable> {
         self.method = method
     }
     
-    public func build(parameters: UNQRequestParameters, body: B) async throws -> UnsignedTxPayloadResponse {
+    public func build(parameters: UNQRequestParameters, body: B) async throws -> UNQUnsignedTxPayloadResponse {
         var buildParameters = parameters
         buildParameters.use = .build
         let request: IRequest = MutationRequest<B>(parameters: buildParameters, body: body, path: path, method: method)
         return try await networkClient.send(request)
     }
     
-    public func sign(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> SignResponse {
+    public func sign(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSignResponse {
         let buildResponse = try await build(parameters: parameters, body: body)
         guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
         let signer = Signer()
         let signature = try await signer.sign(account: account, userAuthenticationType: userAuthenticationType, data: data)
-        return SignResponse(signature: signature, signerPayloadJSON: buildResponse.signerPayloadJSON, fee: buildResponse.fee)
+        return UNQSignResponse(signature: signature, signerPayloadJSON: buildResponse.signerPayloadJSON, fee: buildResponse.fee)
     }
     
-    public func sign(parameters: UNQRequestParameters, body: UnsignedTxPayloadResponse, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> SignResponse {
+    public func sign(parameters: UNQRequestParameters, body: UNQUnsignedTxPayloadResponse, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSignResponse {
         guard let data = Data(hex: body.signerPayloadHex) else { throw NSError() }
         let signer = Signer()
         let signature = try await signer.sign(account: account, userAuthenticationType: userAuthenticationType, data: data)
-        return SignResponse(signature: signature, signerPayloadJSON: body.signerPayloadJSON, fee: body.fee)
+        return UNQSignResponse(signature: signature, signerPayloadJSON: body.signerPayloadJSON, fee: body.fee)
     }
     
     public func submitWatch(parameters: UNQRequestParameters,
                                         body: B,
                                         account: UNQAccount,
-                                        userAuthenticationType: UNQUserAuthenticationType) async throws -> SubmitResponse
+                                        userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSubmitResponse
     {
         let buildResponse = try await build(parameters: parameters, body: body)
         guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
@@ -54,17 +54,15 @@ public class Mutation<B: Codable> {
         var submitParameters = parameters
         submitParameters.use = .submitWatch
         let submitBody = UNQSubmitTxBody(signerPayloadJSON: buildResponse.signerPayloadJSON,
-                                       signerPayloadRaw: buildResponse.signerPayloadRaw,
-                                       signerPayloadHex: buildResponse.signerPayloadHex,
-                                       signature: signature)
+                                         signature: signature)
         let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path, method: method)
         return try await networkClient.send(request)
     }
     
     public func submitWatch(parameters: UNQRequestParameters,
-                            body: UnsignedTxPayloadResponse,
+                            body: UNQUnsignedTxPayloadResponse,
                             account: UNQAccount,
-                            userAuthenticationType: UNQUserAuthenticationType) async throws -> SubmitResponse
+                            userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSubmitResponse
     {
         guard let data = Data(hex: body.signerPayloadHex) else { throw NSError() }
         
@@ -74,9 +72,7 @@ public class Mutation<B: Codable> {
         var submitParameters = parameters
         submitParameters.use = .submitWatch
         let submitBody = UNQSubmitTxBody(signerPayloadJSON: body.signerPayloadJSON,
-                                       signerPayloadRaw: body.signerPayloadRaw,
-                                       signerPayloadHex: body.signerPayloadHex,
-                                       signature: signature)
+                                         signature: signature)
         let request: IRequest = MutationRequest<UNQSubmitTxBody>(parameters: submitParameters, body: submitBody, path: path, method: method)
         return try await networkClient.send(request)
     }
@@ -84,7 +80,7 @@ public class Mutation<B: Codable> {
     public func submitWatch(parameters: UNQRequestParameters,
                             body: UNQSubmitTxBody,
                             account: UNQAccount,
-                            userAuthenticationType: UNQUserAuthenticationType) async throws -> SubmitResponse
+                            userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSubmitResponse
     {
         var submitParameters = parameters
         submitParameters.use = .submitWatch
