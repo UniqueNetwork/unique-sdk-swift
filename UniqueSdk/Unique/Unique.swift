@@ -13,6 +13,7 @@ public class Unique {
    public static let Balance: IBalanceIO = BalanceIO()
     public static let Account: IAccountIO = AccountIO()
     public static let Extrinsic: IExtrinsicIO = ExtrinsicIO()
+    public static let Fungible: IFungibleIO = FungibleIO()
     public static func savePasscode(_ passcode: String) {
         KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
     }

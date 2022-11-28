@@ -30,7 +30,6 @@ class ViewController: UIViewController {
     
     
     @IBAction func createCollectionAction(_ sender: Any) {
-        guard let account = Unique.Account.loadAccounts().first else { return }
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
 
         let jsonAny1 = JSONAny(value: ["_": "Male"])
@@ -46,7 +45,28 @@ class ViewController: UIViewController {
         let body = UNQCreateColletionBody(mode: .nft, name: "asd", description: "13123", tokenPrefix: "asd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: false, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: schema, properties: nil, tokenPropertyPermissions: nil)
         Task {
             do {
-                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
+                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
+                print("result = \(result)")
+                
+                myHash = result.hash
+                let data = try await Unique.Extrinsic.status(hash: result.hash)
+                
+                timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+
+            } catch (let error) {
+                print(error)
+            }
+        }
+    }
+    
+    @objc func createFungibleCollection() {
+        guard let account = Unique.Account.loadAccounts().first else { return }
+        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+
+        let body = UNQCreateFungibleCollectionRequest(mode: .fungible, name: "asdasd", description: "123123123", tokenPrefix: "test", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil, decimals: 10)
+        Task {
+            do {
+                let result = try await Unique.Fungible.createCollection.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
                 print("result = \(result)")
                 
                 myHash = result.hash
@@ -81,7 +101,19 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        nestToken()
+        getFungibleCollection()
+    }
+    
+    func getFungibleCollection() {
+        Task {
+            do {
+                let query = UNQTokenIdQuery(at: nil, collectionId: 89, tokenId: 4)
+                let result = try await Unique.Fungible.getCollection(parameters: .init(at: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 258))
+                print("result = \(result)")
+            }// catch(let error) {
+//                print(error)
+//            }
+        }
     }
     
     @IBAction func getResultAction(_ sender: Any) {

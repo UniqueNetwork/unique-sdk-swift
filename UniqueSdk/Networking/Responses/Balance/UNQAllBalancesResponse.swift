@@ -21,6 +21,7 @@ public struct UNQAllBalancesResponse: Codable {
 public struct UNQBalanceResponse: Codable {
     public let raw: String
     public let amount: String
+    public let fromatted: String
     public let unit: String
     public let decimals: Int
 }
