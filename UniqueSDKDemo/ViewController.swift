@@ -101,7 +101,53 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        createFungibleCollection()
+        callEmv()
+    }
+    
+    func callEmv() {
+        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+
+        let subAbi1: [String: Any] = [
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        ]
+        
+        let input1: [String: String] = [
+            "internalType": "uint256",
+            "name": "myNum",
+            "type": "uint256"
+        ]
+        let input2: [String: String] = [
+            "internalType": "string",
+            "name": "myStr",
+            "type": "string"
+        ]
+        let subAbi2: [String: Any] = [
+            "inputs": [input1, input2],
+            "name": "TestError",
+            "type": "error"
+        ]
+        
+        let jsonAn1 = JSONAny(value: subAbi1)
+        let jsonAn2 = JSONAny(value: subAbi2)
+                
+        let body = UNQEvmSendArguments(address: account1.address, abi: [.init(value: subAbi1), .init(value: subAbi2)], contractAddress: "0x6c7c7B12D818f279f43D93B77142BCc19D2d8CB5", funcName: "addValue", args: [JSONAny(value: 1)], nonce: 0, value: JSONAny(value: 0), gasLimit: .init(value: 0), maxFeePerGas: .init(value: 0), maxPriorityFeePerGas: .init(value: 0))
+        Task {
+            do {
+                let result = try await Unique.Evm.send.submitWatch(parameters: buildParameters, body: body, account: self.account1, userAuthenticationType: .biometric)
+                print("result = \(result)")
+                
+                myHash = result.hash
+                let data = try await Unique.Extrinsic.status(hash: result.hash)
+                
+                timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+
+            } catch (let error) {
+                print(error)
+            }
+        }
+
     }
     
     func getFungibleCollection() {
