@@ -69,5 +69,12 @@ enum RequestPath {
         case calculateFee = "/extrinsic/calculate-fee"
         case status = "/extrinsic/status"
     }
+    
+    enum Fungible: String, IPath {
+        case collection = "/fungible/collection"
+        case balance = "/fungible/balance"
+        case tokens = "/fungible/tokens"
+        case tokensTransfer = "/fungible/tokens/transfer"
+    }
 }
 

@@ -25,6 +25,13 @@ public class Mutation<B: Codable> {
         return try await networkClient.send(request)
     }
     
+    public func buildBatch(parameters: UNQRequestParameters, body: [B]) async throws -> UNQBuildBatchPayloadsResponse {
+        var buildParameters = parameters
+        buildParameters.use = .build
+        let request: IRequest = MutationRequest<[B]>(parameters: buildParameters, body: body, path: path, method: method)
+        return try await networkClient.send(request)
+    }
+    
     public func sign(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSignResponse {
         let buildResponse = try await build(parameters: parameters, body: body)
         guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
