@@ -63,10 +63,10 @@ class ViewController: UIViewController {
         guard let account = Unique.Account.loadAccounts().first else { return }
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
 
-        let body = UNQCreateFungibleCollectionRequest(mode: .fungible, name: "asdasd", description: "123123123", tokenPrefix: "test", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: nil, properties: nil, tokenPropertyPermissions: nil, decimals: 10)
+        let body = UNQCreateERC721CollectionBody(mode: .fungible, name: "asdasd", description: "123123123", tokenPrefix: "test", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", baseURL: nil, properties: nil, tokenPropertyPermissions: nil)
         Task {
             do {
-                let result = try await Unique.Fungible.createCollection.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
+                let result = try await Unique.ERC721.createCollection.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
                 print("result = \(result)")
                 
                 myHash = result.hash
@@ -101,7 +101,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        getFungibleCollection()
+        createFungibleCollection()
     }
     
     func getFungibleCollection() {

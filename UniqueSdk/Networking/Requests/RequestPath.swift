@@ -76,5 +76,10 @@ enum RequestPath {
         case tokens = "/fungible/tokens"
         case tokensTransfer = "/fungible/tokens/transfer"
     }
+    
+    enum ERC721: String, IPath {
+        case collection = "/erc721/collection"
+        case token = "/erc721/token"
+    }
 }
 

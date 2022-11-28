@@ -14,6 +14,7 @@ public class Unique {
     public static let Account: IAccountIO = AccountIO()
     public static let Extrinsic: IExtrinsicIO = ExtrinsicIO()
     public static let Fungible: IFungibleIO = FungibleIO()
+    public static let ERC721: IERC721IO = ERC721IO()
     public static func savePasscode(_ passcode: String) {
         KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
     }
