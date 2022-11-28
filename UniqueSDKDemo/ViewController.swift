@@ -101,7 +101,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        callEmv()
+        getFungibleCollection()
     }
     
     func callEmv() {
@@ -153,8 +153,7 @@ class ViewController: UIViewController {
     func getFungibleCollection() {
         Task {
             do {
-                let query = UNQTokenIdQuery(at: nil, collectionId: 89, tokenId: 4)
-                let result = try await Unique.Fungible.getCollection(parameters: .init(at: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 258))
+                let result = try await Unique.Chain.properties()
                 print("result = \(result)")
             }// catch(let error) {
 //                print(error)
