@@ -86,5 +86,9 @@ enum RequestPath {
         case send = "/evm/send"
         case call = "/evm/call"
     }
+    
+    enum Chain: String, IPath {
+        case properties = "/chain/properties"
+    }
 }
 
