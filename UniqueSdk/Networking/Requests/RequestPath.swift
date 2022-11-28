@@ -81,5 +81,10 @@ enum RequestPath {
         case collection = "/erc721/collection"
         case token = "/erc721/token"
     }
+    
+    enum Evm: String, IPath {
+        case send = "/evm/send"
+        case call = "/evm/call"
+    }
 }
 
