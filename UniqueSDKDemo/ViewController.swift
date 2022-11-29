@@ -80,14 +80,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        queryPost()
+        queryGet()
     }
     
     func queryGet() {
         Task {
             do {
-                let parameters = UNQApiGetterParams(endpoint: "consts", module: "common", method: "collectionCreationPrice")
-                let result = try await Unique.Query.get(parameters: parameters)
+                let result = try await Unique.Common.chainProperties()
                 print("result = \(result)")
 
             } catch(let error) {

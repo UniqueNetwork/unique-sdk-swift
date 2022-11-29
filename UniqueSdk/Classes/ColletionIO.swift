@@ -75,7 +75,7 @@ public class ColletionIO: IColletionIO {
     public var confirmSponsorship = Mutation<UNQConfirmSponsorshipBody>(path: RequestPath.Collection.confirmSponsorship.rawValue, method: .post)
     
     public func get(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQCollectionInfoWithSchemaResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.collections.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.collections.rawValue)
         return try await networkClient.send(request)
     }
     
@@ -85,52 +85,52 @@ public class ColletionIO: IColletionIO {
     }
     
     public func getLimits(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQEffectiveCollectionLimitsResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.limits.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.limits.rawValue)
         return try await networkClient.send(request)
     }
     
     public func properties(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQCollectionPropertiesResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.properties.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.properties.rawValue)
         return try await networkClient.send(request)
     }
     
     public func tokens(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQGetCollectionTokensResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.tokens.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.tokens.rawValue)
         return try await networkClient.send(request)
     }
     
     public func propertyPermissions(propertyPermissionsQuery: UNQPropertyPermissionsQuery) async throws -> UNQPropertyPermissionsResponse {
-        let request: IRequest = CommonGetRequest(parameters: propertyPermissionsQuery.dictionary, path: RequestPath.Collection.propetyPermissions.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: propertyPermissionsQuery.dictionary, path: RequestPath.Collection.propetyPermissions.rawValue)
         return try await networkClient.send(request)
     }
     
     public func nextSponsored(nextSponsoredQuery: UNQNextSponsoredQuery) async throws -> NextSponsoredResponse {
-        let request: IRequest = CommonGetRequest(parameters: nextSponsoredQuery.dictionary, path: RequestPath.Collection.nextSponsored.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: nextSponsoredQuery.dictionary, path: RequestPath.Collection.nextSponsored.rawValue)
         return try await networkClient.send(request)
     }
     
     public func lastTokenId(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQLastTokenIdResult {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.lastTokenId.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.lastTokenId.rawValue)
         return try await networkClient.send(request)
     }
     
     public func allowList(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQAllowListBodyResult {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.allowList.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.allowList.rawValue)
         return try await networkClient.send(request)
     }
     
     public func allowed(allowedQuery: UNQAllowedQuery) async throws -> UNQAllowdResponse {
-        let request: IRequest = CommonGetRequest(parameters: allowedQuery.dictionary, path: RequestPath.Collection.allowed.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: allowedQuery.dictionary, path: RequestPath.Collection.allowed.rawValue)
         return try await networkClient.send(request)
     }
     
     public func admins(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQAdminListResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.admins.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.admins.rawValue)
         return try await networkClient.send(request)
     }
     
     public func totalSupply(collectionIdQuery: UNQCollectionIdQuery) async throws -> UNQTotalSupplyResponse {
-        let request: IRequest = CommonGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.totalSupply.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: collectionIdQuery.dictionary, path: RequestPath.Collection.totalSupply.rawValue)
         return try await networkClient.send(request)
     }
 }

@@ -16,7 +16,7 @@ public class ChainIO: IChainIO {
     let networkClient: INetworkClient = NetworkClient()
     
     public func properties() async throws -> UNQChainPropertiesResponse {
-        let request = CommonGetRequest(parameters: nil, path: RequestPath.Chain.properties.rawValue)
+        let request = GeneralGetRequest(parameters: nil, path: RequestPath.Chain.properties.rawValue)
         return try await networkClient.send(request)
     }
 }

@@ -18,6 +18,7 @@ public class Unique {
     public static let Evm: IEvmIO = EvmIO()
     public static let Chain: IChainIO = ChainIO()
     public static let Query: IQueryIO = QueryIO()
+    public static let Common: ICommonIO = CommonIO()
     public static func savePasscode(_ passcode: String) {
         KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
     }
