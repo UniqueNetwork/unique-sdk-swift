@@ -27,12 +27,12 @@ public class FungibleIO: IFungibleIO {
     public var transferTokens = Mutation<UNQTransferTokensArgs>(path: RequestPath.Fungible.tokensTransfer.rawValue, method: .post)
     
     public func getCollection(parameters: UNQGetFungibleBalanceArgsRequest) async throws -> UNQFungibleCollectionInfo {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Fungible.collection.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Fungible.collection.rawValue)
         return try await networkClient.send(request)
     }
     
     public func getBalance(parameters: UNQCollectionIdQuery) async throws -> UNQBalanceResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Fungible.balance.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Fungible.balance.rawValue)
         return try await networkClient.send(request)
     }
 }

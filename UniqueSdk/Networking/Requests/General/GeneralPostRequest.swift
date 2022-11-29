@@ -1,5 +1,5 @@
 //
-//  CommonPostRequest.swift
+//  GeneralPostRequest.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 25.11.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommonPostRequest<T: Codable>: IRequest {
+struct GeneralPostRequest<T: Codable>: IRequest {
     
     // MARK: - Properties
     

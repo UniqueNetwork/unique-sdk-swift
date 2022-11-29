@@ -18,7 +18,7 @@ public final class Configuration {
     private init() {}
     
     let environment: Environment = {
-        return .local
+        return .dev
 //        var settingsEnvironment: Environment?
 //
 ////        #if DEV_ENV

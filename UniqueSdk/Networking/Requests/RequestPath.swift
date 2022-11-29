@@ -90,5 +90,9 @@ enum RequestPath {
     enum Chain: String, IPath {
         case properties = "/chain/properties"
     }
+    
+    enum Common: String, IPath {
+        case chainProperties = "/common/chain-properties"
+    }
 }
 
