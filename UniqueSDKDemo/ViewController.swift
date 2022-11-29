@@ -58,27 +58,6 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    @objc func createFungibleCollection() {
-        guard let account = Unique.Account.loadAccounts().first else { return }
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-
-        let body = UNQCreateERC721CollectionBody(mode: .fungible, name: "asdasd", description: "123123123", tokenPrefix: "test", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", baseURL: nil, properties: nil, tokenPropertyPermissions: nil)
-        Task {
-            do {
-                let result = try await Unique.ERC721.createCollection.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
-                print("result = \(result)")
-                
-                myHash = result.hash
-                let data = try await Unique.Extrinsic.status(hash: result.hash)
-                
-                timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
 
     @objc func timerAction() {
         Task {
@@ -101,65 +80,38 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        getFungibleCollection()
+        queryPost()
     }
     
-    func callEmv() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-
-        let subAbi1: [String: Any] = [
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        ]
-        
-        let input1: [String: String] = [
-            "internalType": "uint256",
-            "name": "myNum",
-            "type": "uint256"
-        ]
-        let input2: [String: String] = [
-            "internalType": "string",
-            "name": "myStr",
-            "type": "string"
-        ]
-        let subAbi2: [String: Any] = [
-            "inputs": [input1, input2],
-            "name": "TestError",
-            "type": "error"
-        ]
-        
-        let jsonAn1 = JSONAny(value: subAbi1)
-        let jsonAn2 = JSONAny(value: subAbi2)
-                
-        let body = UNQEvmSendArguments(address: account1.address, abi: [.init(value: subAbi1), .init(value: subAbi2)], contractAddress: "0x6c7c7B12D818f279f43D93B77142BCc19D2d8CB5", funcName: "addValue", args: [JSONAny(value: 1)], nonce: 0, value: JSONAny(value: 0), gasLimit: .init(value: 0), maxFeePerGas: .init(value: 0), maxPriorityFeePerGas: .init(value: 0))
+    func queryGet() {
         Task {
             do {
-                let result = try await Unique.Evm.send.submitWatch(parameters: buildParameters, body: body, account: self.account1, userAuthenticationType: .biometric)
+                let parameters = UNQApiGetterParams(endpoint: "consts", module: "common", method: "collectionCreationPrice")
+                let result = try await Unique.Query.get(parameters: parameters)
                 print("result = \(result)")
-                
-                myHash = result.hash
-                let data = try await Unique.Extrinsic.status(hash: result.hash)
-                
-                timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
 
-            } catch (let error) {
+            } catch(let error) {
                 print(error)
             }
         }
 
     }
     
-    func getFungibleCollection() {
+    func queryPost() {
         Task {
             do {
-                let result = try await Unique.Chain.properties()
+                let parameters = UNQApiGetterParams(endpoint: "query", module: "system", method: "number")
+                let body = UNQApiRequestBody(args: [])
+                let result = try await Unique.Query.execute(parameters: parameters, body: body)
                 print("result = \(result)")
-            }// catch(let error) {
-//                print(error)
-//            }
+
+            } catch(let error) {
+                print(error)
+            }
         }
     }
+    
+    
     
     @IBAction func getResultAction(_ sender: Any) {
         Task {
@@ -170,106 +122,6 @@ class ViewController: UIViewController {
             }// catch(let error) {
 //                print(error)
 //            }
-        }
-    }
-    
-    func createToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-
-        let val: Int = 0
-     
-        let body = UNQCreateTokenBody(owner: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", data: UNQTokenToCreateDto(image: .init(urlInfix: "QmZJz9qCB5d8Bv9xz2rSCuX545Ux2UFEAdhUFmtpn5vPqD", url: nil, ipfsCid: nil, hash: ""), attributes: nil, encodedAttributes: ["0": .init(value: val)], name: nil, audio: nil, description: nil, imagePreview: nil, spatialObject: nil, video: nil), properties: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 205)
-        
-        Task {
-            do {
-                let result = try await Unique.Token.create.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func transferToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.transfer.submitWatch(parameters: buildParameters, body: .init(collectionId: 204, tokenId: 1, address: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", from: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", to: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", value: nil), account: account2, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func nestToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        let body = UNQNestTokenBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", parent: .init(collectionId: 205, tokenId: 1), nested: .init(collectionId: 205, tokenId: 2), value: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.nest.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func accountToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.accountTokens(parameters: .init(at: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 205))
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func tokensOwner() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.owner(parameters: .init(at: nil, collectionId: 205, tokenId: 1))
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func approve() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.approve.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", spender: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", collectionId: 205, tokenId: 1, isApprove: true), account: account1, userAuthenticationType: .biometric)
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func allow() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.allowance(parameters: .init(at: nil, collectionId: 205, tokenId: 1, from: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", to: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd"))
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
         }
     }
     
