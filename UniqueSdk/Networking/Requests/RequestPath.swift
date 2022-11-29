@@ -94,5 +94,14 @@ enum RequestPath {
     enum Common: String, IPath {
         case chainProperties = "/common/chain-properties"
     }
+    
+    enum AddressUtils: String, IPath {
+        case nestingTokenIdToAddress = "/address-utils/nesting/ids-to-address"
+        case nestingAddressToCollection = "/address-utils/nesting/address-to-ids"
+        case substrateToEthereum = "/address-utils/mirror/substrate-to-ethereum"
+        case ethereumToSubstrate = "/address-utils/mirror/ethereum-to-substrate"
+        case normalize = "/address-utils/normalize"
+
+    }
 }
 
