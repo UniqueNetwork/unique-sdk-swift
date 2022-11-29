@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     func queryGet() {
         Task {
             do {
-                let result = try await Unique.Common.chainProperties()
+                let result = try await Unique.AddressUtils.ethereumToSubstrate(address: "0x0A91113393e01ebe11f932F89ccd2C3DD713aeBB")
                 print("result = \(result)")
 
             } catch(let error) {
