@@ -24,7 +24,7 @@ struct CommonPostRequest<T: Codable>: IRequest {
     // MARK: - IRequest
     
     var method: HTTPMethod {
-        return .get
+        return .post
     }
     
     var path: String {

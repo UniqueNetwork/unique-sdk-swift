@@ -17,6 +17,7 @@ public class Unique {
     public static let ERC721: IERC721IO = ERC721IO()
     public static let Evm: IEvmIO = EvmIO()
     public static let Chain: IChainIO = ChainIO()
+    public static let Query: IQueryIO = QueryIO()
     public static func savePasscode(_ passcode: String) {
         KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
     }
