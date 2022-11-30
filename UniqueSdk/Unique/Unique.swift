@@ -8,6 +8,7 @@
 import Foundation
 
 public class Unique {
+    public static let Ipfs: IIpfsIO = IpfsIO()
     public static let Token: ITokenIO = TokenIO()
     public static let Collection: IColletionIO = ColletionIO()
     public static let Balance: IBalanceIO = BalanceIO()
