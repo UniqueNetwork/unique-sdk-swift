@@ -15,6 +15,7 @@ public enum NetworkRequestError: Error {
     case backendError(model: ErrorModel)
     case invalidUrlRequest
     case internetConnectionError
+    case invalidResponse
     case unknown
 }
 

@@ -14,6 +14,7 @@ protocol IPath {
 enum RequestPath {
     
     enum Balance: String, IPath {
+        case balance = "/balance"
         case transfer = "/balance/transfer"
     }
     
@@ -92,6 +93,7 @@ enum RequestPath {
     }
     
     enum Common: String, IPath {
+        case nonce = "/common/nonce"
         case chainProperties = "/common/chain-properties"
     }
     

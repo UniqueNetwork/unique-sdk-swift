@@ -80,7 +80,7 @@ public class ColletionIO: IColletionIO {
     }
     
     public func stats(hash: String?) async throws -> UNQGetStatsResponse {
-        let request: IRequest = CollectionGetStatsRequest(hash: hash)
+        let request: IRequest = GeneralGetRequest(parameters: ["at": hash], path: RequestPath.Collection.stats.rawValue)
         return try await networkClient.send(request)
     }
     

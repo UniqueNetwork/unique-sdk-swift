@@ -17,12 +17,12 @@ protocol ISigner {
 class Signer: ISigner {
     
     func sign(account: UNQAccount,
-                   userAuthenticationType: UNQUserAuthenticationType,
-                   data: Data) async throws -> String {
+              userAuthenticationType: UNQUserAuthenticationType,
+              data: Data) async throws -> String {
         let isVerified = try await UserAuthenticator().auth(userAuthenticationType: userAuthenticationType)
         
-        guard isVerified else {throw NSError()}
-        guard let mnemonic = getMnemonic(account: account) else { throw NSError() }
+        guard isVerified else { throw UNQError.accountNotVerified }
+        guard let mnemonic = getMnemonic(account: account) else { throw UNQError.mnemonicNotFound }
         
         let factory = SeedFactory(mnemonicLanguage: .english)
         let seedFactoryResult = try factory.deriveSeed(from: mnemonic, password: "")

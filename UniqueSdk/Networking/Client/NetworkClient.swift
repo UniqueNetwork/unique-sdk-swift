@@ -48,9 +48,8 @@ public final class NetworkClient: INetworkClient {
         let urlRequest = createURLRequest(from: request, token: accessToken)
         let (data, response) = try await URLSessionProvider.urlSession.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse else {
-            throw NSError()
+            throw NetworkRequestError.invalidResponse
         }
-            
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:

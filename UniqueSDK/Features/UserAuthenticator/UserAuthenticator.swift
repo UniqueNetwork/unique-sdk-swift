@@ -38,7 +38,7 @@ class UserAuthenticator {
         if storedCode == code {
             return true
         } else {
-            throw NSError()
+            throw UNQError.passcodeNotFound
         }
         
     }
