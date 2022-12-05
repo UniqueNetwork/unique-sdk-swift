@@ -34,14 +34,14 @@ public class Mutation<B: Codable> {
     
     public func sign(parameters: UNQRequestParameters, body: B, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSignResponse {
         let buildResponse = try await build(parameters: parameters, body: body)
-        guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
+        guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw UNQError.invalidHex }
         let signer = Signer()
         let signature = try await signer.sign(account: account, userAuthenticationType: userAuthenticationType, data: data)
         return UNQSignResponse(signature: signature, signerPayloadJSON: buildResponse.signerPayloadJSON, fee: buildResponse.fee)
     }
     
     public func sign(parameters: UNQRequestParameters, body: UNQUnsignedTxPayloadResponse, account: UNQAccount, userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSignResponse {
-        guard let data = Data(hex: body.signerPayloadHex) else { throw NSError() }
+        guard let data = Data(hex: body.signerPayloadHex) else { throw UNQError.invalidHex }
         let signer = Signer()
         let signature = try await signer.sign(account: account, userAuthenticationType: userAuthenticationType, data: data)
         return UNQSignResponse(signature: signature, signerPayloadJSON: body.signerPayloadJSON, fee: body.fee)
@@ -53,7 +53,7 @@ public class Mutation<B: Codable> {
                                         userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSubmitResponse
     {
         let buildResponse = try await build(parameters: parameters, body: body)
-        guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw NSError() }
+        guard let data = Data(hex: buildResponse.signerPayloadHex) else { throw UNQError.invalidHex }
         
         let signature = try await Signer().sign(account: account,
                                                 userAuthenticationType: userAuthenticationType,
@@ -71,7 +71,7 @@ public class Mutation<B: Codable> {
                             account: UNQAccount,
                             userAuthenticationType: UNQUserAuthenticationType) async throws -> UNQSubmitResponse
     {
-        guard let data = Data(hex: body.signerPayloadHex) else { throw NSError() }
+        guard let data = Data(hex: body.signerPayloadHex) else { throw UNQError.invalidHex }
         
         let signature = try await Signer().sign(account: account,
                                                 userAuthenticationType: userAuthenticationType,

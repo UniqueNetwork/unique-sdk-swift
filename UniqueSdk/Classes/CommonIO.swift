@@ -17,7 +17,7 @@ public class CommonIO: ICommonIO {
     let networkClient: INetworkClient = NetworkClient()
     
     public func getNonce(address: String) async throws -> UNQGetNonceResponse {
-        let request = GetNonceRequest(address: address)
+        let request = GeneralGetRequest(parameters: ["address": address], path: RequestPath.Common.nonce.rawValue)
         return try await networkClient.send(request)
     }
     

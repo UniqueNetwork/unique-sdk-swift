@@ -60,7 +60,7 @@ public class ExtrinsicIO: IExtrinsicIO {
     }
     
     public func status(hash: String) async throws -> UNQExtrinsicResultResponse {
-        let request: IRequest = ExtrinsicStatusRequest(hash: hash)
+        let request: IRequest = GeneralGetRequest(parameters: ["hash": hash], path: RequestPath.Extrinsic.status.rawValue)
         return try await networkClient.send(request)
     }
 }

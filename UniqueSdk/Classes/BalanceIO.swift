@@ -19,7 +19,7 @@ public class BalanceIO: IBalanceIO {
     public var transfer = Mutation<UNQBalanceTransferBody>(path: RequestPath.Balance.transfer.rawValue, method: .post)
 
     public func get(address: String) async throws -> UNQAllBalancesResponse {
-        let request = GetBalanceRequest(address: address)
+        let request = GeneralGetRequest(parameters: ["address": address], path: RequestPath.Balance.balance.rawValue) 
         return try await networkClient.send(request)
     }
 }
