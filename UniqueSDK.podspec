@@ -27,6 +27,7 @@ s.source = { :git => "https://github.com/UniqueNetwork/unique-sdk-swift.git",
 s.framework = "UIKit"
 s.dependency 'Bip39.swift'
 s.dependency 'Sr25519'
+s.dependency 'KeychainAccess'
 
 # 8
 s.source_files = "UniqueSDK/**/*.{h,m,swift,plist}"
