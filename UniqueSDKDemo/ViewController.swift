@@ -7,7 +7,6 @@
 
 import UIKit
 import UniqueSDK
-import IrohaCrypto
 import LocalAuthentication
 
 
@@ -47,10 +46,10 @@ class ViewController: UIViewController {
             do {
                 let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
                 print("result = \(result)")
-                
+
                 myHash = result.hash
                 let data = try await Unique.Extrinsic.status(hash: result.hash)
-                
+
                 timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
 
             } catch (let error) {
@@ -177,8 +176,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func transfer() {
+        Task {
+            do {
+                let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+                let res = try await Unique.Balance.transfer.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", destination: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", amount: 0.1), account: account1, userAuthenticationType: .biometric)
+                print(res)
+            } catch(let error) {
+                print(error)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        Unique.Account.addAccount(account1)
 
     }
     

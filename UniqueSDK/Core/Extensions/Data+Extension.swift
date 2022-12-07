@@ -10,6 +10,10 @@ import CommonCrypto
 
 public extension Data {
     
+    var bytes: [UInt8] {
+          return [UInt8](self)
+    }
+    
     var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
         guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
               let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
@@ -65,6 +69,7 @@ public extension Data {
             return String(bytes: result, encoding: .ascii)!
         }
     }
+    
 
     private static let _hexCharacters = Data("0123456789abcdef".utf8)
 }
