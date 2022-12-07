@@ -6,21 +6,15 @@
 //
 
 import Foundation
-import IrohaCrypto
+import Sr25519
 
 public class SignWrapper {
     
     public init() {}
     
-   public func signSr25519(_ originalData: Data, secretKeyData: Data, publicKeyData: Data) throws
-        -> SNSignature {
-        let privateKey = try SNPrivateKey(rawData: secretKeyData)
-        let publicKey = try SNPublicKey(rawData: publicKeyData)
-
-        let signer = SNSigner(keypair: SNKeypair(privateKey: privateKey, publicKey: publicKey))
-        let signature = try signer.sign(originalData)
-
+    public func signSr25519(_ originalData: Data, keyPair: Sr25519KeyPair) throws
+    -> Sr25519Signature {
+        let signature = keyPair.sign(message: originalData)
         return signature
     }
-    
 }

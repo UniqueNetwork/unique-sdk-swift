@@ -55,62 +55,62 @@ public class TokenIO: ITokenIO {
     public var approve = Mutation<UNQApproveTokenBody>(path: RequestPath.Token.approve.rawValue, method: .post)
 
     public func get(parameters: UNQTokenIdQuery) async throws -> UNQTokenByIdResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.tokens.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.tokens.rawValue)
         return try await networkClient.send(request)
     }
     
     public func properties(parameters: UNQTokenIdQuery) async throws -> UNQTokenPropertiesResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.properties.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.properties.rawValue)
         return try await networkClient.send(request)
     }
     
     public func accountTokens(parameters: UNQAccountTokensQuery) async throws -> UNQAccountTokensResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.accountTokens.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.accountTokens.rawValue)
         return try await networkClient.send(request)
     }
     
     public func exists(parameters: UNQTokenIdQuery) async throws -> UNQTokenExistsResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.exist.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.exist.rawValue)
         return try await networkClient.send(request)
     }
     
     public func children(parameters: UNQTokenIdQuery) async throws -> UNQTokenChildrenResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.children.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.children.rawValue)
         return try await networkClient.send(request)
     }
     
     public func parent(parameters: UNQTokenIdQuery) async throws -> UNQTokenParentResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.parent.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.parent.rawValue)
         return try await networkClient.send(request)
     }
     
     public func owner(parameters: UNQTokenIdQuery) async throws -> UNQTokenOwnerResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.owner.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.owner.rawValue)
         return try await networkClient.send(request)
     }
     
     public func topmostOwner(parameters: UNQTokenIdQuery) async throws -> UNQTopmostTokenOwnerResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.topmost.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.topmost.rawValue)
         return try await networkClient.send(request)
     }
     
     public func allowance(parameters: UNQAllowanceArgumentsQuery) async throws -> UNQAllowanceResultResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.allowance.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.allowance.rawValue)
         return try await networkClient.send(request)
     }
     
     public func isBundle(parameters: UNQTokenIdQuery) async throws -> UNQIsBundleResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.isBundle.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.isBundle.rawValue)
         return try await networkClient.send(request)
     }
     
     public func getBundle(parameters: UNQTokenIdQuery) async throws -> UNQGetBundleResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.getBundle.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.getBundle.rawValue)
         return try await networkClient.send(request)
     }
     
     public func balance(parameters: UNQTokenBalanceQuery) async throws -> UNQTokenBalanceResponse {
-        let request: IRequest = CommonGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.balance.rawValue)
+        let request: IRequest = GeneralGetRequest(parameters: parameters.dictionary, path: RequestPath.Token.balance.rawValue)
         return try await networkClient.send(request)
     }
 

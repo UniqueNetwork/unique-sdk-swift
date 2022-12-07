@@ -48,9 +48,8 @@ public final class NetworkClient: INetworkClient {
         let urlRequest = createURLRequest(from: request, token: accessToken)
         let (data, response) = try await URLSessionProvider.urlSession.data(for: urlRequest)
         guard let response = response as? HTTPURLResponse else {
-            throw NSError()
+            throw NetworkRequestError.invalidResponse
         }
-            
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:
@@ -134,7 +133,6 @@ public final class NetworkClient: INetworkClient {
     }
     
     private func processError(_ data: Data, httpCode: Int) -> NetworkRequestError {
-
         if let errorModel = try? decoder.decode(ErrorModel.self, from: data) {
             print("Error response: \(data.prettyPrintedJSONString ?? "")")
             return NetworkRequestError.backendError(model: errorModel)

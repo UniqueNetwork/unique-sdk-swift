@@ -7,6 +7,7 @@
 
 import Foundation
 import LocalAuthentication
+import Sr25519
 
 protocol ISigner {
     func sign(account: UNQAccount,
@@ -17,22 +18,30 @@ protocol ISigner {
 class Signer: ISigner {
     
     func sign(account: UNQAccount,
-                   userAuthenticationType: UNQUserAuthenticationType,
-                   data: Data) async throws -> String {
+              userAuthenticationType: UNQUserAuthenticationType,
+              data: Data) async throws -> String {
         let isVerified = try await UserAuthenticator().auth(userAuthenticationType: userAuthenticationType)
         
-        guard isVerified else {throw NSError()}
-        guard let mnemonic = getMnemonic(account: account) else { throw NSError() }
-        
+        guard isVerified else { throw UNQError.accountNotVerified }
+        guard let mnemonic = getMnemonic(account: account) else { throw UNQError.mnemonicNotFound }
+        print("mnemonic 11111 = \(mnemonic)")
         let factory = SeedFactory(mnemonicLanguage: .english)
-        let seedFactoryResult = try factory.deriveSeed(from: mnemonic, password: "")
-        let keyPairFactoryResult = try SR25519KeypairFactory().createKeypairFromSeed(seedFactoryResult.seed.prefix(32),
-                                                                                     chaincodeList: [])
-        let snSignature = try SignWrapper().signSr25519(data,
-                                                        secretKeyData: keyPairFactoryResult.privateKey().rawData(),
-                                                        publicKeyData: keyPairFactoryResult.publicKey().rawData())
-        let signature = snSignature.toString()
-        return signature
+        let seed = try factory.deriveSeed(from: mnemonic, password: "")
+        
+        print("seed bytes 111111 \(seed.raw.bytes)")
+        let keyPair = try SR25519KeypairFactory().createKeypairFromSeed(seed)
+        print("pubkey 111111 = \(keyPair.publicKey.raw.bytes)")
+        print("privkey 111111 = \(keyPair.privateRaw.bytes)")
+
+        let sr25519Signature = try SignWrapper().signSr25519(data, keyPair: keyPair)
+        print("signature 111111 = \(sr25519Signature.raw.bytes)")
+        print("signature 111111 = \(sr25519Signature.toString())")
+
+        
+        
+        
+        
+        return sr25519Signature.toString()
     }
     
     private func getMnemonic(account: UNQAccount) -> String? {

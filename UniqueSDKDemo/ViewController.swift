@@ -7,7 +7,6 @@
 
 import UIKit
 import UniqueSDK
-import IrohaCrypto
 import LocalAuthentication
 
 
@@ -30,7 +29,6 @@ class ViewController: UIViewController {
     
     
     @IBAction func createCollectionAction(_ sender: Any) {
-        guard let account = Unique.Account.loadAccounts().first else { return }
         let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
 
         let jsonAny1 = JSONAny(value: ["_": "Male"])
@@ -46,12 +44,12 @@ class ViewController: UIViewController {
         let body = UNQCreateColletionBody(mode: .nft, name: "asd", description: "13123", tokenPrefix: "asd", sponsorship: nil, limits: nil, metaUpdatePermission: nil, permissions: nil, readOnly: false, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", schema: schema, properties: nil, tokenPropertyPermissions: nil)
         Task {
             do {
-                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account, userAuthenticationType: .biometric)
+                let result = try await Unique.Collection.creation.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
                 print("result = \(result)")
-                
+
                 myHash = result.hash
                 let data = try await Unique.Extrinsic.status(hash: result.hash)
-                
+
                 timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
 
             } catch (let error) {
@@ -81,7 +79,89 @@ class ViewController: UIViewController {
     }
     
     @IBAction func manageTokenAction(_ sender: Any) {
-        nestToken()
+        addFiles()
+    }
+    
+    func uploadSingleFile() {
+        Task {
+            do {
+                let imageFileURL = Bundle.main.url(forResource: "myTestPngImage", withExtension: "png")!
+                let fileContents = (try? Data(contentsOf: imageFileURL))!
+                let image = UIImage(data: fileContents)
+                let pngData = image?.pngData()
+                let formData = UNQFormData(fileName: "myTestPngImage.png", mimeType: "image/png", data: pngData!)
+                let result = try await Unique.Ipfs.uploadFile(file: formData)
+                print("result = \(result)")
+
+            } catch(let error) {
+                print(error)
+            }
+        }
+    }
+    
+    func addFiles() {
+     Task {
+         do {
+             let imageFileURL = Bundle.main.url(forResource: "sampleImage", withExtension: "jpg")!
+             let imageData = (try? Data(contentsOf: imageFileURL))!
+             let image = UIImage(data: imageData)
+             let jpegData = image?.jpegData(compressionQuality: 1)
+             
+                let pdfFileURL = Bundle.main.url(forResource: "samplePDF", withExtension: "pdf")
+                let pdfData = try! Data(contentsOf: pdfFileURL!)
+             
+//             let imageFileURL2 = Bundle.main.url(forResource: "butPNG", withExtension: "png")!
+//             let imageData2 = (try? Data(contentsOf: imageFileURL2))!
+//             let image2 = UIImage(data: imageData2)
+//             let pngData2 = image2?.pngData()
+
+             
+             
+             let formData1 = UNQFormData(fileName: "sampleImage.jpg", mimeType: "image/jpg", data: jpegData!)
+             let formData2 = UNQFormData(fileName: "sample.pdf", mimeType: "application/pdf", data: pdfData)
+             let result = try await Unique.Ipfs.addFiles(files: [formData1, formData2], cid: "QmfYc6PZaY5t2qwWRVg4eA1ucYb6revSQ4ADJxhz3heZG7")
+             print("result = \(result)")
+
+         } catch(let error) {
+             print(error)
+         }
+     }
+    }
+    
+    func uploadMultiFiles() {
+        Task {
+            do {
+                let imageFileURL = Bundle.main.url(forResource: "myTestPngImage", withExtension: "png")!
+                let imageData = (try? Data(contentsOf: imageFileURL))!
+                let image = UIImage(data: imageData)
+                let pngData = image?.pngData()
+                
+//                let pdfFileURL = Bundle.main.url(forResource: "samplePDF", withExtension: "pdf")
+//                let pdfData = try! Data(contentsOf: pdfFileURL!)
+                
+                let imageFileURL2 = Bundle.main.url(forResource: "butPNG", withExtension: "png")!
+                let imageData2 = (try? Data(contentsOf: imageFileURL2))!
+                let image2 = UIImage(data: imageData2)
+                let pngData2 = image2?.pngData()
+
+                
+                
+                let formData1 = UNQFormData(fileName: "myTestPngImage.png", mimeType: "image/png", data: pngData!)
+                let formData2 = UNQFormData(fileName: "butPNG.pdf", mimeType: "image/png", data: pngData2!)
+                let result = try await Unique.Ipfs.uploadFiles(files: [formData1, formData2])
+                print("result = \(result)")
+
+            } catch(let error) {
+                print(error)
+            }
+        }
+    }
+    
+    func getim() {
+        let imageFileURL = Bundle.main.url(forResource: "myTestPngImage", withExtension: "png")!
+        let imageData = try! Data(contentsOf: imageFileURL)
+        let image: UIImage = UIImage(data: imageData)!
+        self.uploadImage(paramName: "file", fileName: "myTestPngImage.jpg", image: image)
     }
     
     @IBAction func getResultAction(_ sender: Any) {
@@ -96,101 +176,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func createToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-
-        let val: Int = 0
-     
-        let body = UNQCreateTokenBody(owner: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", data: UNQTokenToCreateDto(image: .init(urlInfix: "QmZJz9qCB5d8Bv9xz2rSCuX545Ux2UFEAdhUFmtpn5vPqD", url: nil, ipfsCid: nil, hash: ""), attributes: nil, encodedAttributes: ["0": .init(value: val)], name: nil, audio: nil, description: nil, imagePreview: nil, spatialObject: nil, video: nil), properties: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 205)
-        
+    func transfer() {
         Task {
             do {
-                let result = try await Unique.Token.create.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func transferToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.transfer.submitWatch(parameters: buildParameters, body: .init(collectionId: 204, tokenId: 1, address: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", from: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", to: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", value: nil), account: account2, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func nestToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        let body = UNQNestTokenBody(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", parent: .init(collectionId: 205, tokenId: 1), nested: .init(collectionId: 205, tokenId: 2), value: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.nest.submitWatch(parameters: buildParameters, body: body, account: account1, userAuthenticationType: .biometric)
-                myHash = result.hash
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func accountToken() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.accountTokens(parameters: .init(at: nil, address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", collectionId: 205))
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func tokensOwner() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.owner(parameters: .init(at: nil, collectionId: 205, tokenId: 1))
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func approve() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.approve.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", spender: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd", collectionId: 205, tokenId: 1, isApprove: true), account: account1, userAuthenticationType: .biometric)
-                print("result = \(result)")
-
-            } catch (let error) {
-                print(error)
-            }
-        }
-    }
-    
-    func allow() {
-        let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
-        Task {
-            do {
-                let result = try await Unique.Token.allowance(parameters: .init(at: nil, collectionId: 205, tokenId: 1, from: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", to: "5F1q9WbbuRZNnToTaYCv6JH8tTbZRKeUs1KnXCmFFqKXFTMd"))
-                print("result = \(result)")
-
-            } catch (let error) {
+                let buildParameters = UNQRequestParameters(withFee: nil, verify: nil, callbackUrl: nil, nonce: nil)
+                let res = try await Unique.Balance.transfer.submitWatch(parameters: buildParameters, body: .init(address: "5HEK4aJcrzw1M7cqvXDzGBUVcUEAsCACJ6Jyn4P56R3DyJEo", destination: "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty", amount: 0.1), account: account1, userAuthenticationType: .biometric)
+                print(res)
+            } catch(let error) {
                 print(error)
             }
         }
@@ -198,7 +190,65 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        Unique.Account.addAccount(account1)
+
+    }
+    
+
+
+    func uploadImage(paramName: String, fileName: String, image: UIImage) {
+        let url = URL(string: "https://rest.opal.uniquenetwork.dev/v1/ipfs/upload-file")
+
+        // generate boundary string using a unique per-app string
+        let boundary = UUID().uuidString
+
+        let session = URLSession.shared
+
+        // Set the URLRequest to POST and to the specified URL
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+
+        // Set Content-Type Header to multipart/form-data, this is equivalent to submitting form data with file upload in a web browser
+        // And the boundary is also set here
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var data = Data()
+
+        // Add the image data to the raw http request data
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"\(paramName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        data.append(image.pngData()!)
+
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+        // Send a POST request to the URL, with the data we created earlier
+        session.uploadTask(with: urlRequest, from: data, completionHandler: { responseData, response, error in
+            print("responseData = \(responseData?.prettyPrintedJSONString)")
+            print("response = \(response)")
+            print("error = \(error)")
+            
+            let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+                .documentType: NSAttributedString.DocumentType.html,
+                .characterEncoding: String.Encoding.utf8.rawValue
+            ]
+
+            let attributedString = try! NSAttributedString(data: responseData!, options: options, documentAttributes: nil)
+
+            // The Weeknd ‘King Of The Fall’
+            let decodedString = attributedString.string
+            print("decodingStr = \(decodedString)")
+            
+            if error == nil {
+                let jsonData = try? JSONSerialization.jsonObject(with: responseData!, options: .allowFragments)
+                if let json = jsonData as? [String: Any] {
+                    print(json)
+                }
+            }
+            
+//            let result = try! JSONDecoder().decode(UNQIpfsUploadResponse.self, from: responseData!)
+//            print(result)
+        }).resume()
     }
     
     

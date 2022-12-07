@@ -1,5 +1,5 @@
 //
-//  CommonGetRequest.swift
+//  GeneralGetRequest.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 15.11.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommonGetRequest: IRequest {
+struct GeneralGetRequest: IRequest {
     
     // MARK: - Properties
     

@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import IrohaCrypto
+import Sr25519
 
 public class SignatureVerifier {
         
     public init() {}
     
-    public func verify(signature: SNSignature, forOriginalData: Data, using: SNPublicKey) -> Bool {
-        SNSignatureVerifier().verify(signature, forOriginalData: forOriginalData, using: using)
+    public func verify(signature: Sr25519Signature, keyPair: Sr25519KeyPair, forOriginalData: Data) -> Bool {
+        return keyPair.verify(message: forOriginalData, signature: signature)
     }
     
 }

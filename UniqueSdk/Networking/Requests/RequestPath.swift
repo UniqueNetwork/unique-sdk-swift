@@ -14,6 +14,7 @@ protocol IPath {
 enum RequestPath {
     
     enum Balance: String, IPath {
+        case balance = "/balance"
         case transfer = "/balance/transfer"
     }
     
@@ -68,6 +69,41 @@ enum RequestPath {
         case submit = "/extrinsic/submit"
         case calculateFee = "/extrinsic/calculate-fee"
         case status = "/extrinsic/status"
+    }
+    
+    enum Fungible: String, IPath {
+        case collection = "/fungible/collection"
+        case balance = "/fungible/balance"
+        case tokens = "/fungible/tokens"
+        case tokensTransfer = "/fungible/tokens/transfer"
+    }
+    
+    enum ERC721: String, IPath {
+        case collection = "/erc721/collection"
+        case token = "/erc721/token"
+    }
+    
+    enum Evm: String, IPath {
+        case send = "/evm/send"
+        case call = "/evm/call"
+    }
+    
+    enum Chain: String, IPath {
+        case properties = "/chain/properties"
+    }
+    
+    enum Common: String, IPath {
+        case nonce = "/common/nonce"
+        case chainProperties = "/common/chain-properties"
+    }
+    
+    enum AddressUtils: String, IPath {
+        case nestingTokenIdToAddress = "/address-utils/nesting/ids-to-address"
+        case nestingAddressToCollection = "/address-utils/nesting/address-to-ids"
+        case substrateToEthereum = "/address-utils/mirror/substrate-to-ethereum"
+        case ethereumToSubstrate = "/address-utils/mirror/ethereum-to-substrate"
+        case normalize = "/address-utils/normalize"
+
     }
 }
 
