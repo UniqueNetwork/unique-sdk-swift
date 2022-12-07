@@ -6,8 +6,10 @@ target 'UniqueSDK' do
   use_frameworks!
 
   # Pods for UniqueSDK
-pod 'IrohaCrypto'
+#pod 'IrohaCrypto'
 pod 'KeychainAccess'
+pod 'Sr25519', '~> 0.1'
+pod 'Bip39.swift', '~> 0.1'
 
 end
 

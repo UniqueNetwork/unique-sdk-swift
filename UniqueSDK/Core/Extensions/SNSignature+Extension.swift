@@ -1,18 +1,17 @@
 //
-//  SNSignature+Extension.swift
+//  Sr25519Signature+Extension.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 26.10.2022.
 //
 
 import Foundation
-import IrohaCrypto
+import Sr25519
 
-public extension SNSignature {
+public extension Sr25519Signature {
     
      func toString() -> String {
-         self.rawData()
-        let hexStr = NSData(data: self.rawData()).toHexString()
+        let hexStr = self.raw.hex(prefix: false)
         let str = "0x01\(hexStr)"
         return str
     }

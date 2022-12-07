@@ -6,35 +6,33 @@
 //
 
 import Foundation
-import IrohaCrypto
+import Bip39
+import Sr25519
+import UncommonCrypto
 
-public typealias SeedFactoryResult = (seed: Data, mnemonic: IRMnemonicProtocol)
 
 public protocol SeedFactoryProtocol {
-    func createSeed(from password: String, strength: IRMnemonicStrength) throws -> SeedFactoryResult
-    func deriveSeed(from mnemonicWords: String, password: String) throws -> SeedFactoryResult
+    func deriveSeed(from mnemonicWords: String, password: String) throws -> Sr25519Seed
+    
 }
 
 public struct SeedFactory: SeedFactoryProtocol {
-    private let seedFactory: SNBIP39SeedCreatorProtocol = SNBIP39SeedCreator()
-    private let mnemonicCreator: IRMnemonicCreatorProtocol
+    private let mnemonicLanguage: Wordlist
 
-    public init(mnemonicLanguage: IRMnemonicLanguage = .english) {
-        mnemonicCreator = IRMnemonicCreator(language: mnemonicLanguage)
+    public init(mnemonicLanguage: Wordlist = .english) {
+        self.mnemonicLanguage = mnemonicLanguage
     }
 
-    public func createSeed(from password: String,
-                           strength: IRMnemonicStrength) throws -> SeedFactoryResult {
-        let mnemonic = try mnemonicCreator.randomMnemonic(strength)
-        let seed = try seedFactory.deriveSeed(from: mnemonic.entropy(), passphrase: password)
-
-        return SeedFactoryResult(seed: seed, mnemonic: mnemonic)
-    }
-
-    public func deriveSeed(from mnemonicWords: String,
-                           password: String) throws -> SeedFactoryResult {
-        let mnemonic = try mnemonicCreator.mnemonic(fromList: mnemonicWords)
-        let seed = try seedFactory.deriveSeed(from: mnemonic.entropy(), passphrase: password).prefix(32)
-        return SeedFactoryResult(seed: seed, mnemonic: mnemonic)
+    public func deriveSeed(from mnemonicWords: String, password: String) throws -> Sr25519Seed {
+        let mnemonic = try Mnemonic(mnemonic: mnemonicWords.components(separatedBy: " "))
+        let data = Data(mnemonic.substrate_seed().prefix(32))
+        let seed = try Sr25519Seed(raw: data)
+        print(seed.raw.bytes)
+        
+        return seed
+        
+     
+//        let seed = try seedFactory.deriveSeed(from: mnemonic.entropy(), passphrase: password).prefix(32)
+//        return SeedFactoryResult(seed: seed, mnemonic: mnemonic)
     }
 }

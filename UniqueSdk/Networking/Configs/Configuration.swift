@@ -18,23 +18,7 @@ public final class Configuration {
     private init() {}
     
     let environment: Environment = {
-        return .dev
-//        var settingsEnvironment: Environment?
-//
-////        #if DEV_ENV
-////        // пытаемся достать значение из настроек
-////        settingsEnvironment = SettingsBundlePovider.shared.environment
-////        #endif
-////
-////        if let env = settingsEnvironment {
-////            return env
-////        } else {
-//
-//         //   let schemeValue = PlistConfiguration.valueForKey(.environment, default: Environment.production.rawValue)
-//        let schemeValue = PlistConfiguration.valueForKey(.environment, default: Environment.devplus.rawValue)
-//            return Environment(rawValue: schemeValue)! // swiftlint:disable:this force_unwrapping
-////        }
-
+        return .local
     }()
 
     func apiUrl() -> URL {
