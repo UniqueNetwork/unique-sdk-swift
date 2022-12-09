@@ -1,5 +1,5 @@
 //
-//  JSONAny.swift
+//  UNQAny.swift
 //  UniqueSDK
 //
 //  Created by Мах Ol on 22.11.2022.
@@ -9,9 +9,9 @@ import Foundation
 
 // MARK: - Encode/decode helpers
 
-public class JSONNull: Codable, Hashable {
+public class UNQNull: Codable, Hashable {
 
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
+    public static func == (lhs: UNQNull, rhs: UNQNull) -> Bool {
         return true
     }
 
@@ -24,7 +24,7 @@ public class JSONNull: Codable, Hashable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
-            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
+            throw DecodingError.typeMismatch(UNQNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for UNQNull"))
         }
     }
 
@@ -54,7 +54,7 @@ class JSONCodingKey: CodingKey {
     }
 }
 
-public class JSONAny: Codable {
+public class UNQAny: Codable {
     
     public init(value: Any) {
         self.value = value
@@ -63,12 +63,12 @@ public class JSONAny: Codable {
     public let value: Any
 
     static func decodingError(forCodingPath codingPath: [CodingKey]) -> DecodingError {
-        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode JSONAny")
-        return DecodingError.typeMismatch(JSONAny.self, context)
+        let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode UNQAny")
+        return DecodingError.typeMismatch(UNQAny.self, context)
     }
 
     static func encodingError(forValue value: Any, codingPath: [CodingKey]) -> EncodingError {
-        let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Cannot encode JSONAny")
+        let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Cannot encode UNQAny")
         return EncodingError.invalidValue(value, context)
     }
 
@@ -86,7 +86,7 @@ public class JSONAny: Codable {
             return value
         }
         if container.decodeNil() {
-            return JSONNull()
+            return UNQNull()
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
@@ -106,7 +106,7 @@ public class JSONAny: Codable {
         }
         if let value = try? container.decodeNil() {
             if value {
-                return JSONNull()
+                return UNQNull()
             }
         }
         if var container = try? container.nestedUnkeyedContainer() {
@@ -133,7 +133,7 @@ public class JSONAny: Codable {
         }
         if let value = try? container.decodeNil(forKey: key) {
             if value {
-                return JSONNull()
+                return UNQNull()
             }
         }
         if var container = try? container.nestedUnkeyedContainer(forKey: key) {
@@ -173,7 +173,7 @@ public class JSONAny: Codable {
                 try container.encode(value)
             } else if let value = value as? String {
                 try container.encode(value)
-            } else if value is JSONNull {
+            } else if value is UNQNull {
                 try container.encodeNil()
             } else if let value = value as? [Any] {
                 var container = container.nestedUnkeyedContainer()
@@ -198,7 +198,7 @@ public class JSONAny: Codable {
                 try container.encode(value, forKey: key)
             } else if let value = value as? String {
                 try container.encode(value, forKey: key)
-            } else if value is JSONNull {
+            } else if value is UNQNull {
                 try container.encodeNil(forKey: key)
             } else if let value = value as? [Any] {
                 var container = container.nestedUnkeyedContainer(forKey: key)
@@ -221,7 +221,7 @@ public class JSONAny: Codable {
             try container.encode(value)
         } else if let value = value as? String {
             try container.encode(value)
-        } else if value is JSONNull {
+        } else if value is UNQNull {
             try container.encodeNil()
         } else {
             throw encodingError(forValue: value, codingPath: container.codingPath)
@@ -230,25 +230,25 @@ public class JSONAny: Codable {
 
     public required init(from decoder: Decoder) throws {
         if var arrayContainer = try? decoder.unkeyedContainer() {
-            self.value = try JSONAny.decodeArray(from: &arrayContainer)
+            self.value = try UNQAny.decodeArray(from: &arrayContainer)
         } else if var container = try? decoder.container(keyedBy: JSONCodingKey.self) {
-            self.value = try JSONAny.decodeDictionary(from: &container)
+            self.value = try UNQAny.decodeDictionary(from: &container)
         } else {
             let container = try decoder.singleValueContainer()
-            self.value = try JSONAny.decode(from: container)
+            self.value = try UNQAny.decode(from: container)
         }
     }
 
     public func encode(to encoder: Encoder) throws {
         if let arr = self.value as? [Any] {
             var container = encoder.unkeyedContainer()
-            try JSONAny.encode(to: &container, array: arr)
+            try UNQAny.encode(to: &container, array: arr)
         } else if let dict = self.value as? [String: Any] {
             var container = encoder.container(keyedBy: JSONCodingKey.self)
-            try JSONAny.encode(to: &container, dictionary: dict)
+            try UNQAny.encode(to: &container, dictionary: dict)
         } else {
             var container = encoder.singleValueContainer()
-            try JSONAny.encode(to: &container, value: self.value)
+            try UNQAny.encode(to: &container, value: self.value)
         }
     }
 }

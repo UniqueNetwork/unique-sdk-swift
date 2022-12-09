@@ -17,21 +17,25 @@ public final class Configuration {
     
     private init() {}
     
-    let environment: Environment = {
-        return .local
-    }()
+    public var environment: Environment = .dev
 
     func apiUrl() -> URL {
-        // swiftlint:disable force_unwrapping
         switch self.environment {
         case .local:
             return URL(string: "http://localhost:3000")!
         case .dev:
             return URL(string: "https://rest.opal.uniquenetwork.dev")!
-        case .prod:
-            return URL(string: "")!
+        case .opal:
+            return URL(string: "https://rest.unique.network/opal")!
+        case .quartz:
+            return URL(string: "https://rest.unique.network/quartz")!
+        case .unique:
+            return URL(string: "https://rest.unique.network/unique")!
+        case .sapphire:
+            return URL(string: "https://rest.unique.network/sapphire")!
+        case .custom(let url):
+            return URL(string: url)!
         }
-        // swiftlint:enable force_unwrapping
     }
 }
 

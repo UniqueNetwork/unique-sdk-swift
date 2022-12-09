@@ -9,14 +9,14 @@ import Foundation
 
 public struct UNQEvmCallArguments: Codable {
     public let address: String
-    public let abi: [JSONAny]
+    public let abi: [UNQAny]
     public let contractAddress: String
     public let funcName: String
-    public let args: [JSONAny]?
+    public let args: [UNQAny]?
     public let nonce: Int?
     public let at: String?
 
-    public init(address: String, abi: [JSONAny], contractAddress: String, funcName: String, args: [JSONAny]?, nonce: Int?, at: String?) {
+    public init(address: String, abi: [UNQAny], contractAddress: String, funcName: String, args: [UNQAny]?, nonce: Int?, at: String?) {
         self.address = address
         self.abi = abi
         self.contractAddress = contractAddress

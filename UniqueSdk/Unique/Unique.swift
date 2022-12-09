@@ -21,6 +21,11 @@ public class Unique {
     public static let Query: IQueryIO = QueryIO()
     public static let Common: ICommonIO = CommonIO()
     public static let AddressUtils: IAddressUtilsIO = AddressUtilsIO()
+    
+    public static func setConfiguration(_ enviroment: Environment) {
+        Configuration.shared.environment = enviroment
+    }
+    
     public static func savePasscode(_ passcode: String) {
         KeychainService().saveToKeycahin(key: Global.VerificationKey.key, value: passcode)
     }

@@ -13,9 +13,9 @@ public struct UNQExtrinsicResultResponse: Codable {
     public let isError: Bool
     public let blockHash: String?
     public let blockIndex: Int?
-    public let error: JSONAny?
+    public let error: UNQAny?
     public let events: [UNQExtrinsicResultEvent]?
-    public let parsed: JSONAny?
+    public let parsed: UNQAny?
     public let fee: UNQFeeResponse?
     public let callbackUrl: String?
     public let useMethod: Bool?
@@ -25,5 +25,5 @@ public struct UNQExtrinsicResultResponse: Codable {
 public struct UNQExtrinsicResultEvent: Codable {
     public let section: String
     public let method: String
-    public let data: JSONAny
+    public let data: UNQAny
 }
