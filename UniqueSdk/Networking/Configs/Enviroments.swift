@@ -7,8 +7,13 @@
 
 import Foundation
 
-enum Environment: String {
+public enum Environment {
     case local
     case dev
-    case prod
+    case opal
+    case quartz
+    case unique
+    case sapphire
+    case custom(String)
+
 }

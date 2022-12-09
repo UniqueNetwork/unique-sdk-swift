@@ -8,7 +8,7 @@
 import KeychainAccess
 import UIKit
 
-protocol Keychainable {
+protocol IKeychainService {
     func saveToKeycahin(key: String, value: String)
     func deleteFromKeychain(keys: [String])
     func loadFromKeychain(key: String) -> String?
@@ -19,7 +19,7 @@ class KeychainService {
    private lazy var keychain = Keychain(service: Constants.service)
 }
 
-extension KeychainService: Keychainable {
+extension KeychainService: IKeychainService {
     func loadFromKeychain(key: String) -> String? {
         do {
             let value = try keychain.get(key)
@@ -44,6 +44,6 @@ extension KeychainService: Keychainable {
 private extension KeychainService {
     
     enum Constants {
-        static let service: String = "com.sber.kvd"
+        static let service: String = "com.unique.sdk"
     }
 }

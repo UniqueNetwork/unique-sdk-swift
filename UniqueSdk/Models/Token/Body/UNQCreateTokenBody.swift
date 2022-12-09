@@ -28,8 +28,8 @@ public struct UNQCreateTokenBody: Codable {
 
 public struct UNQTokenToCreateDto: Codable {
     public let image: UNQEncodedInfixOrUrlOrCidAndHash
-    public let attributes: [String: JSONAny]?
-    public let encodedAttributes: [String: JSONAny]?
+    public let attributes: [String: UNQAny]?
+    public let encodedAttributes: [String: UNQAny]?
     public let name: [String: String]?
     public let audio: UNQEncodedInfixOrUrlOrCidAndHash?
     public let description: [String: String]?
@@ -37,7 +37,7 @@ public struct UNQTokenToCreateDto: Codable {
     public let spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?
     public let video: UNQEncodedInfixOrUrlOrCidAndHash?
     
-    public init(image: UNQEncodedInfixOrUrlOrCidAndHash, attributes: [String: JSONAny]?, encodedAttributes: [String: JSONAny]?, name: [String: String]?, audio: UNQEncodedInfixOrUrlOrCidAndHash?, description: [String: String]?, imagePreview: UNQEncodedInfixOrUrlOrCidAndHash?, spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?, video: UNQEncodedInfixOrUrlOrCidAndHash?)
+    public init(image: UNQEncodedInfixOrUrlOrCidAndHash, attributes: [String: UNQAny]?, encodedAttributes: [String: UNQAny]?, name: [String: String]?, audio: UNQEncodedInfixOrUrlOrCidAndHash?, description: [String: String]?, imagePreview: UNQEncodedInfixOrUrlOrCidAndHash?, spatialObject: UNQEncodedInfixOrUrlOrCidAndHash?, video: UNQEncodedInfixOrUrlOrCidAndHash?)
     {
         self.image = image
         self.attributes = attributes

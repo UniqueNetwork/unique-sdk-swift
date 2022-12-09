@@ -12,8 +12,8 @@ import Foundation
 public struct UNQGetExtrinsicResponse: Codable {
     public let section: String
     public let method: String
-    public let events: [JSONAny]
-    public let args: [JSONAny]
+    public let events: [UNQAny]
+    public let args: [UNQAny]
     public let nonce: Int
     public let signer: String
 }

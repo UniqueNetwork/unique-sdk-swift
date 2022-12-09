@@ -27,12 +27,6 @@ public struct SeedFactory: SeedFactoryProtocol {
         let mnemonic = try Mnemonic(mnemonic: mnemonicWords.components(separatedBy: " "))
         let data = Data(mnemonic.substrate_seed().prefix(32))
         let seed = try Sr25519Seed(raw: data)
-        print(seed.raw.bytes)
-        
         return seed
-        
-     
-//        let seed = try seedFactory.deriveSeed(from: mnemonic.entropy(), passphrase: password).prefix(32)
-//        return SeedFactoryResult(seed: seed, mnemonic: mnemonic)
     }
 }

@@ -36,8 +36,8 @@ public struct UNQDecodedAttribureDto: Codable {
     let type: String
     let isArray: Bool
     let isEnum: Bool
-    let rawValue: JSONAny
-    let value: JSONAny
+    let rawValue: UNQAny
+    let value: UNQAny
 }
 
 public struct UNQNestingParentId: Codable {

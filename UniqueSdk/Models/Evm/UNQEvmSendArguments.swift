@@ -11,17 +11,17 @@ import Foundation
 
 public struct UNQEvmSendArguments: Codable {
     public let address: String
-    public let abi: [JSONAny]
+    public let abi: [UNQAny]
     public let contractAddress: String
     public let funcName: String
-    public let args: [JSONAny]?
+    public let args: [UNQAny]?
     public let nonce: Int?
-    public let value: JSONAny?
-    public let gasLimit: JSONAny?
-    public let maxFeePerGas: JSONAny?
-    public let maxPriorityFeePerGas: JSONAny?
+    public let value: UNQAny?
+    public let gasLimit: UNQAny?
+    public let maxFeePerGas: UNQAny?
+    public let maxPriorityFeePerGas: UNQAny?
 
-    public init(address: String, abi: [JSONAny], contractAddress: String, funcName: String, args: [JSONAny]?, nonce: Int?, value: JSONAny?, gasLimit: JSONAny?, maxFeePerGas: JSONAny?, maxPriorityFeePerGas: JSONAny?) {
+    public init(address: String, abi: [UNQAny], contractAddress: String, funcName: String, args: [UNQAny]?, nonce: Int?, value: UNQAny?, gasLimit: UNQAny?, maxFeePerGas: UNQAny?, maxPriorityFeePerGas: UNQAny?) {
         self.address = address
         self.abi = abi
         self.contractAddress = contractAddress
