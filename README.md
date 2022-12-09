@@ -36,9 +36,10 @@ To install UniqueSDK package via Xcode
 
 Following are some examples to demonstrate usage of the library.
 
-#### First of all - save user passcode for submiting transactions
+#### First of all - set chain configuration that you preffer and save user passcode for submiting transactions
 
 ```Swift
+Unique.setConfiguration(.opal)
 Unique.savePasscode("1234")
 ```
 
