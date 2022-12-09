@@ -8,7 +8,7 @@ s.summary = "UniqueSDK allows allows developers to integrate with polkadot block
 s.requires_arc = true
 
 # 2
-s.version = "0.0.5"
+s.version = "0.0.6"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -27,6 +27,7 @@ s.source = { :git => "https://github.com/UniqueNetwork/unique-sdk-swift.git",
 s.framework = "UIKit"
 s.dependency 'Bip39.swift'
 s.dependency 'Sr25519'
+s.dependency 'KeychainAccess'
 
 # 8
 s.source_files = "UniqueSDK/**/*.{h,m,swift,plist}"

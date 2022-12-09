@@ -11,9 +11,9 @@ public struct UNQTxBuildBody: Codable {
     public let address: String
     public let section: String
     public let method: String
-    public let args: [JSONAny]
+    public let args: [UNQAny]
     
-    public init(address: String, section: String, method: String, args: [JSONAny]) {
+    public init(address: String, section: String, method: String, args: [UNQAny]) {
         self.address = address
         self.section = section
         self.method = method

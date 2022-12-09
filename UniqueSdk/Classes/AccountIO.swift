@@ -11,7 +11,6 @@ public protocol IAccountIO {
     func loadAccounts() -> [UNQAccount]
     func addAccount(_ account: UNQAccount)
     func deleteAccount(_ account: UNQAccount)
-    func testGetAccountMnemonic(account: UNQAccount) -> String
 }
 
 public class AccountIO: IAccountIO {
@@ -27,9 +26,4 @@ public class AccountIO: IAccountIO {
     public func deleteAccount(_ account: UNQAccount) {
         StorageGatewaysFactory.accounts.delete(account)
     }
-    
-    public func testGetAccountMnemonic(account: UNQAccount) -> String {
-        KeychainService().loadFromKeychain(key: account.address) ?? ""
-    }
-    
 }

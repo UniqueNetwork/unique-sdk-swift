@@ -10,4 +10,5 @@ import Foundation
 enum Global {
     public enum VerificationKey {
         public static let key = "com.Unique.VerificationKey"
-    }}
+    }
+}

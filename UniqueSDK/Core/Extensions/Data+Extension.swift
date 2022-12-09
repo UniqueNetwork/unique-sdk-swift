@@ -23,7 +23,7 @@ public extension Data {
         return prettyPrintedString
     }
     
-    public init?(hex: String) {
+     init?(hex: String) {
         guard let hexData = hex.data(using: .ascii) else { return nil }
         guard hexData.count % 2 == 0 else { return nil }
         let prefix = hex.hasPrefix("0x") ? 2 : 0

@@ -53,7 +53,6 @@ public final class NetworkClient: INetworkClient {
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:
-                print()
                 if data.isEmpty,
                    ResponseType.self is EmptyResponse.Type,
                    let response = EmptyResponse() as? ResponseType
@@ -103,7 +102,6 @@ public final class NetworkClient: INetworkClient {
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:
-                print()
                 if data.isEmpty,
                    ResponseType.self is EmptyResponse.Type,
                    let response = EmptyResponse() as? ResponseType
