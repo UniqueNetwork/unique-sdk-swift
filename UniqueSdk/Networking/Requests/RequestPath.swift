@@ -103,7 +103,17 @@ enum RequestPath {
         case substrateToEthereum = "/address-utils/mirror/substrate-to-ethereum"
         case ethereumToSubstrate = "/address-utils/mirror/ethereum-to-substrate"
         case normalize = "/address-utils/normalize"
-
+    }
+    
+    enum Refungible: String, IPath {
+        case collection = "/refungible/collection"
+        case balance = "/refungible/tokens/balance"
+        case tokens = "/refungible/tokens"
+        case transfer = "/refungible/tokens/transfer"
+        case approve = "/refungible/tokens/approve"
+        case allowance = "/refungible/tokens/allowance"
+        case repartition = "/refungible/tokens/repartition"
+        case totalPieces = "/refungible/tokens/total-pieces"
     }
 }
 

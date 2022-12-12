@@ -15,6 +15,7 @@ public class Unique {
     public static let Account: IAccountIO = AccountIO()
     public static let Extrinsic: IExtrinsicIO = ExtrinsicIO()
     public static let Fungible: IFungibleIO = FungibleIO()
+    public static let Refungible: IRefangibleIO = RefangibleIO()
     public static let ERC721: IERC721IO = ERC721IO()
     public static let Evm: IEvmIO = EvmIO()
     public static let Chain: IChainIO = ChainIO()
