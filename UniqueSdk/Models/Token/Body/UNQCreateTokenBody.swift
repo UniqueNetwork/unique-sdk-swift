@@ -8,9 +8,7 @@
 import Foundation
 
 public struct UNQCreateTokenBody: Codable {
-    /// владелец коллекции
     public let owner: String
-    ///вкладываемая дата
     public let data: UNQTokenToCreateDto?
     public let properties: UNQTokenProperty?
     public let address: String
@@ -23,7 +21,6 @@ public struct UNQCreateTokenBody: Codable {
         self.address = address
         self.collectionId = collectionId
     }
-    
 }
 
 public struct UNQTokenToCreateDto: Codable {
