@@ -40,6 +40,8 @@ Following are some examples to demonstrate usage of the library.
 
 ```Swift
 Unique.setConfiguration(.opal)
+//or use custom configuration
+Unique.setConfiguration(.custom("https://..."))
 Unique.savePasscode("1234")
 ```
 
