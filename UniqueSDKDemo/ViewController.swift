@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Unique.setConfiguration(.local)
+        Unique.setConfiguration(.unique)
         Unique.savePasscode("1234")
     }
     
