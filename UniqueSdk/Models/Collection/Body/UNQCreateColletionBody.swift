@@ -99,7 +99,7 @@ public struct UNQCollectionProperty: Codable {
 
 // MARK: - Schema
 public struct UNQCollectionSchemaToCreate: Codable {
-    public let attributesSchema: [String: UNQAttributeSchema]
+    public let attributesSchema: [String: UNQAttributeSchema]?
     public let attributesSchemaVersion: String?
     public let coverPicture: UNQCoverPicture
     public let image: UNQCollectionSchemaImage
@@ -111,7 +111,7 @@ public struct UNQCollectionSchemaToCreate: Codable {
     public let spatialObject: UNQSpatialObject?
     public let video: UNQCollectionSchemaVideo?
     
-    public init(attributesSchema: [String: UNQAttributeSchema],
+    public init(attributesSchema: [String: UNQAttributeSchema]?,
                 attributesSchemaVersion: String?,
                 coverPicture: UNQCoverPicture,
                 image: UNQCollectionSchemaImage,

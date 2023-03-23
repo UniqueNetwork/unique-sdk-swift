@@ -9,7 +9,6 @@ import Foundation
 
 public enum Environment {
     case local
-    case dev
     case opal
     case quartz
     case unique

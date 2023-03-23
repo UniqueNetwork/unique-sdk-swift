@@ -17,14 +17,12 @@ public final class Configuration {
     
     private init() {}
     
-    public var environment: Environment = .dev
+    public var environment: Environment = .opal
 
     func apiUrl() -> URL {
         switch self.environment {
         case .local:
             return URL(string: "http://localhost:3000")!
-        case .dev:
-            return URL(string: "https://rest.opal.uniquenetwork.dev")!
         case .opal:
             return URL(string: "https://rest.unique.network/opal")!
         case .quartz:
